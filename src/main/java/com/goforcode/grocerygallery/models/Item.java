@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Item {
 
@@ -41,6 +43,7 @@ public class Item {
 
 	private boolean wasFinished;
 	
+	@JsonIgnore
 	@ManyToOne
 	private User user;
 	
