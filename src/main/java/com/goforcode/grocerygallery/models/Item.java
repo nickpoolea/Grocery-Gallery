@@ -10,14 +10,16 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+//import org.joda.time.LocalDate;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 //@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Item {
-
+	
 	@Id
 	@GeneratedValue(generator = "ItemIdSeq", strategy = GenerationType.AUTO)
 	@SequenceGenerator(name = "ItemIdSeq", sequenceName = "ItemIdSeq")
@@ -29,12 +31,15 @@ public class Item {
 	@Column(length = 255)
 	private String category;
 
+	@JsonFormat(pattern="yyyy-MM-dd")
 	@Column(length = 20)
-	private Date addedDate;
+	private Date purchasedDate;
 
+	@JsonFormat(pattern="yyyy-MM-dd")
 	@Column(length = 20)
 	private Date trashDate;
 
+	@JsonFormat(pattern="yyyy-MM-dd")
 	@Column(length = 20)
 	private Date expirationDate;
 
@@ -46,6 +51,8 @@ public class Item {
 
 	private boolean wasFinished;
 	
+	private int level;
+	
 	@JsonIgnore
 	@ManyToOne
 	private User user;
@@ -54,6 +61,13 @@ public class Item {
 
 	public Item(String name) {
 		this.name = name;
+	}
+	
+	public Item(String name, String category, Date purchasedDate, Date expirationDate) {
+		this.name = name;
+		this.category = category;
+		this.purchasedDate = purchasedDate;
+		this.expirationDate = expirationDate;
 	}
 
 	public Long getId() {
@@ -80,12 +94,12 @@ public class Item {
 		this.category = category;
 	}
 
-	public Date getAddedDate() {
-		return addedDate;
+	public Date getpurchasedDate() {
+		return purchasedDate;
 	}
 
-	public void setAddedDate(Date addedDate) {
-		this.addedDate = addedDate;
+	public void setpurchasedDate(Date purchasedDate) {
+		this.purchasedDate = purchasedDate;
 	}
 
 	public Date getTrashDate() {
@@ -143,5 +157,35 @@ public class Item {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	public double getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+	
+//	public int calculateLevel() {
+//		
+//		Date currentDate = new Date();
+//		
+//		int daysBTcurrentAndPurchased = 
+//		
+//		double levelPercentage = (currentDate - getpurchasedDate()) / 
+//				(getExpirationDate() - getpurchasedDate());
+//		
+//		if(levelPercentage <= 0.33 ) {
+//			this.setLevel(1);
+//		}
+//		else if (levelPercentage <= 0.66 && levelPercentage >= 0.33) {
+//			this.setLevel(2);
+//		}
+//		else {
+//			this.setLevel(3);
+//		}
+//		
+//		return this.level;
+//	}
 
 }
