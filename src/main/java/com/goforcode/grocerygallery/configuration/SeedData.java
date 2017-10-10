@@ -41,13 +41,13 @@ public class SeedData {
 		itemRepo.save(chickenFeet);
 		
 		Item lettuce = new Item("Lettuce");
+		lettuce.setUser(priya);
 		lettuce.setWasFinished(true);
-		lettuce.setInGrocery(true);
 		itemRepo.save(lettuce);
 		
 		Item apples = new Item("Apples");
+		apples.setUser(priya);
 		apples.setWasWasted(true);
-		apples.setInGrocery(true);
 		itemRepo.save(apples);
 		
 	}
