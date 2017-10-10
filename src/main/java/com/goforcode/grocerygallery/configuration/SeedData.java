@@ -22,19 +22,33 @@ public class SeedData {
 		
 		Item brocolli = new Item("Brocolli");
 		brocolli.setUser(priya);
+		brocolli.setInFridge(true);
 		itemRepo.save(brocolli);
 		
 		Item milk = new Item("Mik");
 		milk.setUser(priya);
+		milk.setInFridge(true);
 		itemRepo.save(milk);
 		
 		Item eggs = new Item("Eggs");
 		eggs.setUser(priya);
+		eggs.setInGrocery(true);
 		itemRepo.save(eggs);
 		
 		Item chickenFeet = new Item("Chicken Feet");
 		chickenFeet.setUser(priya);
+		chickenFeet.setInGrocery(true);
 		itemRepo.save(chickenFeet);
+		
+		Item lettuce = new Item("Lettuce");
+		lettuce.setWasFinished(true);
+		lettuce.setInGrocery(true);
+		itemRepo.save(lettuce);
+		
+		Item apples = new Item("Apples");
+		apples.setWasWasted(true);
+		apples.setInGrocery(true);
+		itemRepo.save(apples);
 		
 	}
 	
