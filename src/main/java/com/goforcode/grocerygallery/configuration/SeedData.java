@@ -16,24 +16,25 @@ public class SeedData {
 	}
 
 	public void create() {
+				
+		User priya = new User("Priya@gmail.com", "password");
+		userRepo.save(priya);
 		
 		Item brocolli = new Item("Brocolli");
+		brocolli.setUser(priya);
 		itemRepo.save(brocolli);
+		
 		Item milk = new Item("Mik");
+		milk.setUser(priya);
+		itemRepo.save(milk);
+		
 		Item eggs = new Item("Eggs");
+		eggs.setUser(priya);
+		itemRepo.save(eggs);
+		
 		Item chickenFeet = new Item("Chicken Feet");
-		
-		User user = new User("Priya@gmail.com", "password");
-		userRepo.save(user);
-		
-		user = new User("Tania@gmail.com", "password");
-		userRepo.save(user);
-		
-		user = new User("Nick@gmail.com", "password");
-		userRepo.save(user);
-		
-		
-		
+		chickenFeet.setUser(priya);
+		itemRepo.save(chickenFeet);
 		
 	}
 	
