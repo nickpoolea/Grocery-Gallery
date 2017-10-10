@@ -51,6 +51,7 @@ public class FridgeController {
 	@PostMapping("")
 	public Item addItemToFridge(@RequestBody Item fridgeItem) {
 		fridgeItem.setInFridge(true);
+		fridgeItem.calculateLevel();
 		return itemRepo.save(fridgeItem);
 	}
 	
