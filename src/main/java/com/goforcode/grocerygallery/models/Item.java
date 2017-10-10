@@ -10,14 +10,13 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 //@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Item {
-
+	
 	@Id
 	@GeneratedValue(generator = "ItemIdSeq", strategy = GenerationType.AUTO)
 	@SequenceGenerator(name = "ItemIdSeq", sequenceName = "ItemIdSeq")
@@ -29,12 +28,15 @@ public class Item {
 	@Column(length = 255)
 	private String category;
 
+	@JsonFormat(pattern="yyyy-MM-dd")
 	@Column(length = 20)
 	private Date addedDate;
 
+	@JsonFormat(pattern="yyyy-MM-dd")
 	@Column(length = 20)
 	private Date trashDate;
 
+	@JsonFormat(pattern="yyyy-MM-dd")
 	@Column(length = 20)
 	private Date expirationDate;
 
@@ -54,6 +56,13 @@ public class Item {
 
 	public Item(String name) {
 		this.name = name;
+	}
+	
+	public Item(String name, String category, Date addedDate, Date expirationDate) {
+		this.name = name;
+		this.category = category;
+		this.addedDate = addedDate;
+		this.expirationDate = expirationDate;
 	}
 
 	public Long getId() {

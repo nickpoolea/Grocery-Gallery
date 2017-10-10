@@ -1,5 +1,7 @@
 package com.goforcode.grocerygallery;
 
+import java.text.ParseException;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -18,7 +20,7 @@ public class GroceryGalleryApplication {
 		this.itemRepo = itemRepo;
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ParseException {
 		SpringApplication.run(GroceryGalleryApplication.class, args);
 		
 		SeedData sd = new SeedData(userRepo, itemRepo);
