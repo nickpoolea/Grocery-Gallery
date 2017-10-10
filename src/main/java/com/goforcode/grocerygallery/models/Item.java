@@ -63,10 +63,10 @@ public class Item {
 		this.name = name;
 	}
 	
-	public Item(String name, String category, Date addedDate, Date expirationDate) {
+	public Item(String name, String category, Date purchasedDate, Date expirationDate) {
 		this.name = name;
 		this.category = category;
-		this.addedDate = addedDate;
+		this.purchasedDate = purchasedDate;
 		this.expirationDate = expirationDate;
 	}
 
