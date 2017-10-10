@@ -9,20 +9,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.goforcode.grocerygallery.models.Item;
+import com.goforcode.grocerygallery.repositories.ItemRepository;
 
-@Controller
+@RestController
 @RequestMapping("/grocery")
 public class GroceryController {
 	
 	private List<Item> tempItemList = new ArrayList<Item>();
 	private Item tempItem = new Item();
+	private ItemRepository itemRepo;
 	
-	@GetMapping("/")
+	public GroceryController(ItemRepository itemRepo) {
+		this.itemRepo = itemRepo;
+	}
+	
+	@GetMapping("")
 	public List<Item> returnItemsInGroceryList() {
 		/* Return a list of all items in the grocery list */
-		return tempItemList;
+		List<Item> allGroceryItems = itemRepo.findByInGroceryIsTrue();
+		return allGroceryItems;
 	}
 	
 	@PostMapping("/")
