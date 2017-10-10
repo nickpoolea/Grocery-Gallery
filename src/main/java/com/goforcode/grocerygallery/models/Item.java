@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
+//import org.joda.time.LocalDate;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -30,7 +32,7 @@ public class Item {
 	private String category;
 
 	@Column(length = 20)
-	private Date addedDate;
+	private Date purchasedDate;
 
 	@Column(length = 20)
 	private Date trashDate;
@@ -45,6 +47,8 @@ public class Item {
 	private boolean wasWasted;
 
 	private boolean wasFinished;
+	
+	private int level;
 	
 	@JsonIgnore
 	@ManyToOne
@@ -80,12 +84,12 @@ public class Item {
 		this.category = category;
 	}
 
-	public Date getAddedDate() {
-		return addedDate;
+	public Date getpurchasedDate() {
+		return purchasedDate;
 	}
 
-	public void setAddedDate(Date addedDate) {
-		this.addedDate = addedDate;
+	public void setpurchasedDate(Date purchasedDate) {
+		this.purchasedDate = purchasedDate;
 	}
 
 	public Date getTrashDate() {
@@ -143,5 +147,35 @@ public class Item {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	public double getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+	
+//	public int calculateLevel() {
+//		
+//		Date currentDate = new Date();
+//		
+//		int daysBTcurrentAndPurchased = 
+//		
+//		double levelPercentage = (currentDate - getpurchasedDate()) / 
+//				(getExpirationDate() - getpurchasedDate());
+//		
+//		if(levelPercentage <= 0.33 ) {
+//			this.setLevel(1);
+//		}
+//		else if (levelPercentage <= 0.66 && levelPercentage >= 0.33) {
+//			this.setLevel(2);
+//		}
+//		else {
+//			this.setLevel(3);
+//		}
+//		
+//		return this.level;
+//	}
 
 }
