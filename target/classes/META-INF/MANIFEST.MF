@@ -1,7 +1,11 @@
 Manifest-Version: 1.0
 Implementation-Title: Grocery-Gallery
 Implementation-Version: 0.0.1-SNAPSHOT
+<<<<<<< HEAD
 Built-By: N0209899
+=======
+Built-By: n0292073
+>>>>>>> f8d9d2186782eed79b914381d0fb4b97247929c2
 Implementation-Vendor-Id: com.goforcode.grocery-gallery
 Build-Jdk: 1.8.0_144
 Implementation-URL: http://projects.spring.io/spring-boot/Grocery-Gall
