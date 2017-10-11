@@ -65,6 +65,7 @@ public class FridgeController {
 	@PutMapping("/{id}")
 	public Item editFridgeItem(@RequestBody Item fridgeItem, @PathVariable long id) {
 		fridgeItem.setId(id);
+		fridgeItem.setInFridge(true);
 		return itemRepo.save(fridgeItem);
 	}
 	
