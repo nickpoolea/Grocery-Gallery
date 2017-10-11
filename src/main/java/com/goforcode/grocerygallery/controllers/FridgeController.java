@@ -29,7 +29,7 @@ public class FridgeController {
 		this.itemRepo = itemRepo;
 	}
 	
-	/*
+	/* This needs to be fixed before it is uncommented
 	// To allow search to work
 	@GetMapping("")
 	public List<Item> returnItemsInFridge(String partialTitle) {
@@ -44,8 +44,8 @@ public class FridgeController {
 	}*/
 	
 	@GetMapping("")
-	public List<Item> returnItemsInFridge(String partialTitle) {
-		return itemRepo.findAll();
+	public List<Item> returnItemsInFridge() {
+		return itemRepo.findByInFridgeTrue();
 	}
 	
 	@PostMapping("")
@@ -86,4 +86,10 @@ public class FridgeController {
 		return itemRepo.save(fridgeItem);
 	}
 
+	@PostMapping("/{id}/grocery")
+	public Item moveAFridgeItemToGrocery(@RequestBody Item fridgeItem, @PathVariable long id) {
+		fridgeItem.setInGrocery(true);
+		return itemRepo.save(fridgeItem);
+	}
+	
 }
