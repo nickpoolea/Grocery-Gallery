@@ -49,7 +49,10 @@ public class FridgeController {
 	@PostMapping("")
 	public Item addItemToFridge(@RequestBody Item fridgeItem) {
 		fridgeItem.setInFridge(true);
-		fridgeItem.calculateLevel();
+		if(fridgeItem.getpurchasedDate() != null && fridgeItem.getExpirationDate() != null) {
+			fridgeItem.calculateLevel();
+		}
+
 		return itemRepo.save(fridgeItem);
 	}
 	
