@@ -78,21 +78,26 @@ public class FridgeController {
 	}
 	
 	@PostMapping("/{id}/waste")
-	public Item wasteAFridgeItem(@RequestBody Item fridgeItem, @PathVariable long id) {
-		fridgeItem.setWasWasted(true);
-		return itemRepo.save(fridgeItem);
+	public Item wasteAFridgeItem(@PathVariable long id) {
+		Item item = itemRepo.findOne(id);
+		item.setWasWasted(true);
+		item.setInFridge(false);
+		return itemRepo.save(item);
 	}
 	
 	@PostMapping("/{id}/finish")
-	public Item finishAFridgeItem(@RequestBody Item fridgeItem, @PathVariable long id) {
-		fridgeItem.setWasFinished(true);
-		return itemRepo.save(fridgeItem);
+	public Item finishAFridgeItem(@PathVariable long id) {
+		Item item = itemRepo.findOne(id);
+		item.setWasFinished(true);
+		item.setInFridge(false);
+		return itemRepo.save(item);
 	}
 
 	@PostMapping("/{id}/grocery")
 	public Item moveAFridgeItemToGrocery(@RequestBody Item fridgeItem, @PathVariable long id) {
-		fridgeItem.setInGrocery(true);
-		return itemRepo.save(fridgeItem);
+		Item item = itemRepo.findOne(id);
+		item.setInGrocery(true);
+		return itemRepo.save(item);
 	}
 	
 }
