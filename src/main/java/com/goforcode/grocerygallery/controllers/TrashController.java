@@ -25,7 +25,8 @@ public class TrashController {
 	public List<Item> returnWastedItemsInTrash() {
 		/*Return wasted items in the trash */
 		List<Item> wastedList;
-		wastedList = itemRepo.findByWasWastedTrue();
+		wastedList = itemRepo.findByWasWastedTrueOrderByExpirationDateDesc();
+		System.out.println(wastedList);
 		
 		return wastedList;
 		
