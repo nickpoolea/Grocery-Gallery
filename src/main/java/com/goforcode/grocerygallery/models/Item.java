@@ -189,9 +189,20 @@ public class Item {
 		Calendar expiryDate = Calendar.getInstance();
 		currDate.setTime(currentDate);
 
-		purchDate.setTime(getpurchasedDate());
-
-		expiryDate.setTime(getExpirationDate());
+		if(getpurchasedDate() != null ) {
+			purchDate.setTime(getpurchasedDate());
+		}
+		else {
+			purchDate.setTime(new Date());
+		}
+		
+		if(getExpirationDate() != null ) {
+			expiryDate.setTime(getExpirationDate());
+		}
+		else {	 
+			expiryDate.add(Calendar.DATE, 7);	
+			//Add stuff here - need to use API data to search for expiration date
+		}
 
 		double daysBetweenfirst = currDate.get(Calendar.DAY_OF_YEAR) - purchDate.get(Calendar.DAY_OF_YEAR);
 
