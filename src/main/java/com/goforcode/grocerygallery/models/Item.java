@@ -2,7 +2,6 @@ package com.goforcode.grocerygallery.models;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.text.SimpleDateFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,7 +14,6 @@ import javax.persistence.SequenceGenerator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 //import org.joda.time.LocalDate;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
