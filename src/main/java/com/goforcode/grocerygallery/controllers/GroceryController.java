@@ -22,8 +22,6 @@ import com.goforcode.grocerygallery.repositories.ItemRepository;
 @CrossOrigin(origins = "*")
 public class GroceryController {
 	
-	private List<Item> tempItemList = new ArrayList<Item>();
-	private Item tempItem = new Item();
 	private ItemRepository itemRepo;
 	
 	public GroceryController(ItemRepository itemRepo) {
@@ -33,8 +31,7 @@ public class GroceryController {
 	@GetMapping("")
 	public List<Item> returnItemsInGroceryList() {
 		/* Return a list of all items in the grocery list */
-		List<Item> allGroceryItems = itemRepo.findByInGroceryTrue();
-		return allGroceryItems;
+		return itemRepo.findByInGroceryTrue();
 	}
 	
 	@PostMapping("")
@@ -53,6 +50,7 @@ public class GroceryController {
 	@PutMapping("/{id}")
 	public Item editGroceryItem(@PathVariable long id, @RequestBody Item item) {
 		/* Edit the details of one grocery item*/
+		item.setInGrocery(true);
 		item.setId(id);
 		return itemRepo.save(item);
 	}
