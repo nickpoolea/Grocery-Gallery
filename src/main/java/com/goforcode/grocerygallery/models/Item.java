@@ -1,5 +1,6 @@
 package com.goforcode.grocerygallery.models;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -13,13 +14,13 @@ import javax.persistence.SequenceGenerator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 //import org.joda.time.LocalDate;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+// @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
+// property = "id")
 public class Item {
-	
+
 	@Id
 	@GeneratedValue(generator = "ItemIdSeq", strategy = GenerationType.AUTO)
 	@SequenceGenerator(name = "ItemIdSeq", sequenceName = "ItemIdSeq")
@@ -31,15 +32,15 @@ public class Item {
 	@Column(length = 255)
 	private String category;
 
-	@JsonFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	@Column(length = 20)
 	private Date purchasedDate;
 
-	@JsonFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	@Column(length = 20)
 	private Date trashDate;
 
-	@JsonFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	@Column(length = 20)
 	private Date expirationDate;
 
@@ -50,24 +51,28 @@ public class Item {
 	private boolean wasWasted;
 
 	private boolean wasFinished;
-	
+
 	private int level;
-	
+
+	private int quantity;
+
 	@JsonIgnore
 	@ManyToOne
 	private User user;
-	
-	public Item() {}
+
+	public Item() {
+	}
 
 	public Item(String name) {
 		this.name = name;
 	}
-	
+
 	public Item(String name, String category, Date purchasedDate, Date expirationDate) {
 		this.name = name;
 		this.category = category;
 		this.purchasedDate = purchasedDate;
 		this.expirationDate = expirationDate;
+
 	}
 
 	public Long getId() {
@@ -159,33 +164,54 @@ public class Item {
 	}
 
 	public double getLevel() {
+
 		return level;
 	}
 
 	public void setLevel(int level) {
 		this.level = level;
 	}
-	
-//	public int calculateLevel() {
-//		
-//		Date currentDate = new Date();
-//		
-//		int daysBTcurrentAndPurchased = 
-//		
-//		double levelPercentage = (currentDate - getpurchasedDate()) / 
-//				(getExpirationDate() - getpurchasedDate());
-//		
-//		if(levelPercentage <= 0.33 ) {
-//			this.setLevel(1);
-//		}
-//		else if (levelPercentage <= 0.66 && levelPercentage >= 0.33) {
-//			this.setLevel(2);
-//		}
-//		else {
-//			this.setLevel(3);
-//		}
-//		
-//		return this.level;
-//	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	public int calculateLevel() {
+
+		Date currentDate = new Date();
+
+		Calendar currDate = Calendar.getInstance();
+		Calendar purchDate = Calendar.getInstance();
+		Calendar expiryDate = Calendar.getInstance();
+		currDate.setTime(currentDate);
+
+		purchDate.setTime(getpurchasedDate());
+
+		expiryDate.setTime(getExpirationDate());
+
+		double daysBetweenfirst = currDate.get(Calendar.DAY_OF_YEAR) - purchDate.get(Calendar.DAY_OF_YEAR);
+
+		double daysBetweenSecond = expiryDate.get(Calendar.DAY_OF_YEAR) - purchDate.get(Calendar.DAY_OF_YEAR);
+
+		System.out.println("daysBetweenFIRST is: " + daysBetweenfirst);
+		System.out.println("daysBetweenSECOND is: " + daysBetweenSecond);
+
+		double levelPercentage = daysBetweenfirst / daysBetweenSecond;
+		System.out.println("Level % is: " + levelPercentage);
+
+		if (levelPercentage <= 0.33) {
+			this.setLevel(1);
+		} else if (levelPercentage < 0.50 && levelPercentage > 0.33) {
+			this.setLevel(2);
+		} else {
+			this.setLevel(3);
+		}
+
+		return this.level;
+	}
 
 }

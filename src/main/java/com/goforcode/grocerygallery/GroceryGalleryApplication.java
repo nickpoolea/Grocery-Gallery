@@ -6,6 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.goforcode.grocerygallery.configuration.SeedData;
+import com.goforcode.grocerygallery.models.Item;
 import com.goforcode.grocerygallery.repositories.ItemRepository;
 import com.goforcode.grocerygallery.repositories.UserRepository;
 
@@ -24,6 +25,7 @@ public class GroceryGalleryApplication {
 		SpringApplication.run(GroceryGalleryApplication.class, args);
 		
 		SeedData sd = new SeedData(userRepo, itemRepo);
-		sd.create();
+		sd.create();		
+		
 	}
 }

@@ -20,7 +20,7 @@ public class SeedData {
 
 	public void create() throws ParseException {
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 		
 				
 		User priya = new User("Priya@gmail.com", "password");
@@ -61,12 +61,23 @@ public class SeedData {
 		Item ketchup = new Item("Ketchup", "Condiments", sdf.parse("10/1/2017"), sdf.parse("12/1/2017"));
 		ketchup.setUser(priya);
 		ketchup.setInFridge(true);
+//		System.out.println("Ketchup level is: " + ketchup.calculateLevel());
 		itemRepo.save(ketchup);
 		
 		Item bread = new Item("Bread", "Grains/Nuts", sdf.parse("10/1/2017"), sdf.parse("12/30/2017"));
 		bread.setUser(priya);
 		bread.setInFridge(true);
+//		System.out.println("Bread level is: " + bread.calculateLevel());
 		itemRepo.save(bread);
+		
+		Item lemon = new Item("Lemon", "Produce", sdf.parse("10/09/2017"), sdf.parse("10/12/2017"));
+		lemon.setUser(priya);
+		lemon.setInFridge(true);
+		System.out.println("level is: " + lemon.calculateLevel());
+		System.out.println("Purchased date is: " + lemon.getpurchasedDate());
+		System.out.println("Expiration date is: " + lemon.getExpirationDate());
+		
+		itemRepo.save(lemon);
 		
 	}
 	

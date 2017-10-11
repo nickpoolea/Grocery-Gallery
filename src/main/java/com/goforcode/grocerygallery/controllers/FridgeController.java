@@ -1,9 +1,7 @@
 package com.goforcode.grocerygallery.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,6 +49,7 @@ public class FridgeController {
 	@PostMapping("")
 	public Item addItemToFridge(@RequestBody Item fridgeItem) {
 		fridgeItem.setInFridge(true);
+		fridgeItem.calculateLevel();
 		return itemRepo.save(fridgeItem);
 	}
 	
