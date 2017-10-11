@@ -22,8 +22,6 @@ import com.goforcode.grocerygallery.repositories.ItemRepository;
 @CrossOrigin(origins = "*")
 public class GroceryController {
 	
-	private List<Item> tempItemList = new ArrayList<Item>();
-	private Item tempItem = new Item();
 	private ItemRepository itemRepo;
 	
 	public GroceryController(ItemRepository itemRepo) {
