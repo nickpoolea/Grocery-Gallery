@@ -212,13 +212,13 @@ public class Item {
 //		System.out.println("daysBetweenSECOND is: " + daysBetweenSecond);
 
 		double levelPercentage = daysBetweenfirst / daysBetweenSecond;
-//		System.out.println("Level % is: " + levelPercentage);
+		System.out.println("Level % is: " + levelPercentage);
 
 		if (levelPercentage <= 0.33) {
 			this.setLevel(1);
-		} else if (levelPercentage < 0.50 && levelPercentage >= 0.33) {
+		} else if (levelPercentage <= 0.55 && levelPercentage > 0.33) {
 			this.setLevel(2);
-		} else if (levelPercentage <= 0.99 && levelPercentage >= 0.50) {
+		} else if (levelPercentage <= 0.99 && levelPercentage > 0.55) {
 			this.setLevel(3);
 		}
 		else {
