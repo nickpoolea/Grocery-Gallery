@@ -208,21 +208,67 @@ public class Item {
 
 		double daysBetweenSecond = expiryDate.get(Calendar.DAY_OF_YEAR) - purchDate.get(Calendar.DAY_OF_YEAR);
 
-		System.out.println("daysBetweenFIRST is: " + daysBetweenfirst);
-		System.out.println("daysBetweenSECOND is: " + daysBetweenSecond);
+//		System.out.println("daysBetweenFIRST is: " + daysBetweenfirst);
+//		System.out.println("daysBetweenSECOND is: " + daysBetweenSecond);
 
 		double levelPercentage = daysBetweenfirst / daysBetweenSecond;
-		System.out.println("Level % is: " + levelPercentage);
+//		System.out.println("Level % is: " + levelPercentage);
 
 		if (levelPercentage <= 0.33) {
 			this.setLevel(1);
-		} else if (levelPercentage < 0.50 && levelPercentage > 0.33) {
+		} else if (levelPercentage < 0.50 && levelPercentage >= 0.33) {
 			this.setLevel(2);
-		} else {
+		} else if (levelPercentage < 0.99 && levelPercentage >= 0.50) {
 			this.setLevel(3);
+		}
+		else {
+			this.setLevel(4);
 		}
 
 		return this.level;
 	}
+	
+	/*public void validateCategory(String category) {
+		
+		category = this.category;
+		if (category == null ) {
+			//do this
+		}
+		 
+		switch(category.toLowerCase()) {
+		
+	        case "milk/dairy":
+	            break;
+
+	        case "meat":
+	            break;
+	            
+	        case "produce":
+	            break;
+	            
+	        case "grains":
+	            break;
+	            
+	        case "sweets":
+	            break;
+	            
+	        case "condiments":
+	            break;
+	            
+	        case "milk/dairy":
+	            break;
+	            
+	        default: 
+	            //this.expiration is in 1 week
+	            break;
+		 }
+		
+		
+		
+		
+		
+	}
+*/	
+	
 
 }
