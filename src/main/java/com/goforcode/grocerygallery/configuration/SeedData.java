@@ -3,6 +3,8 @@ package com.goforcode.grocerygallery.configuration;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import com.goforcode.grocerygallery.models.Item;
 import com.goforcode.grocerygallery.models.User;
 import com.goforcode.grocerygallery.repositories.ItemRepository;
@@ -12,10 +14,12 @@ public class SeedData {
 	
 	private UserRepository userRepo;
 	private ItemRepository itemRepo;
+	private PasswordEncoder encoder;
 	
-	public SeedData(UserRepository userRepo, ItemRepository itemRepo) {
+	public SeedData(UserRepository userRepo, ItemRepository itemRepo, PasswordEncoder encoder) {
 		this.userRepo = userRepo;
 		this.itemRepo = itemRepo;
+		this.encoder = encoder;
 	}
 
 	public void create() throws ParseException {
@@ -23,7 +27,7 @@ public class SeedData {
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 		 
 				
-		User priya = new User("Priya@gmail.com", "password");
+		User priya = new User("Priya@gmail.com", encoder.encode("password"), "USER");
 		userRepo.save(priya);
 		
 		Item brocolli = new Item("Brocolli", "Produce", sdf.parse("10/1/2017"), sdf.parse("10/20/2017"));

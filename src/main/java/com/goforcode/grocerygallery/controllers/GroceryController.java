@@ -1,9 +1,8 @@
 package com.goforcode.grocerygallery.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +28,7 @@ public class GroceryController {
 	}
 	
 	@GetMapping("")
-	public List<Item> returnItemsInGroceryList() {
+	public List<Item> returnItemsInGroceryList(Authentication auth) {
 		/* Return a list of all items in the grocery list */
 		return itemRepo.findByInGroceryTrue();
 	}
