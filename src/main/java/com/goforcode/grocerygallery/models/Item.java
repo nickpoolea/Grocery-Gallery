@@ -218,7 +218,7 @@ public class Item {
 			this.setLevel(1);
 		} else if (levelPercentage < 0.50 && levelPercentage >= 0.33) {
 			this.setLevel(2);
-		} else if (levelPercentage < 0.99 && levelPercentage >= 0.50) {
+		} else if (levelPercentage <= 0.99 && levelPercentage >= 0.50) {
 			this.setLevel(3);
 		}
 		else {
