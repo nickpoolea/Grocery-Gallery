@@ -23,6 +23,8 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 	List<Item> findByInGroceryTrue();
 	
 	//Return All fridge items
-	List<Item> findByInFridgeTrue();
+	List<Item> findByInFridgeTrueAndUserIdEquals(long id);
+
+	List<Item> findByInGroceryTrueAndUserIdEquals(long userId);
 
 }

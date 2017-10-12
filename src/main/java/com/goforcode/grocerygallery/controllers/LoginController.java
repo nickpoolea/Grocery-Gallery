@@ -21,10 +21,10 @@ public class LoginController {
 		return tempUser;
 	}
 	
-	@PostMapping("login")
-	public User validateUserToLogin(User user) {
-		/* Validate User credentials to log the user in */
-		return tempUser;
-	}
+//	@PostMapping("login")
+//	public User validateUserToLogin(User user) {
+//		/* Validate User credentials to log the user in */
+//		return tempUser;
+//	}
 
 }
