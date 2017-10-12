@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.goforcode.grocerygallery.models.Item;
+import com.goforcode.grocerygallery.models.User;
 import com.goforcode.grocerygallery.repositories.ItemRepository;
 
 @RestController
@@ -30,12 +31,17 @@ public class GroceryController {
 	@GetMapping("")
 	public List<Item> returnItemsInGroceryList(Authentication auth) {
 		/* Return a list of all items in the grocery list */
-		return itemRepo.findByInGroceryTrue();
+		User user = (User) auth.getPrincipal();
+		long userId = user.getId();
+		
+		return itemRepo.findByInGroceryTrueAndUserIdEquals(userId); 
 	}
 	
 	@PostMapping("")
-	public Item addItemToGroceryList(@RequestBody Item item) {
+	public Item addItemToGroceryList(@RequestBody Item item, Authentication auth) {
 		/* Add an item to the grocery list */
+		User user = (User) auth.getPrincipal();
+		item.setUser(user);
 		item.setInGrocery(true);
 		return itemRepo.save(item);
 	}
