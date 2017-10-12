@@ -49,9 +49,15 @@ public class FridgeController {
 	@PostMapping("")
 	public Item addItemToFridge(@RequestBody Item fridgeItem) {
 		fridgeItem.setInFridge(true);
-		if(fridgeItem.getpurchasedDate() != null && fridgeItem.getExpirationDate() != null) {
+		fridgeItem.validateCategoryAndDates();
+		fridgeItem.calculateLevel();
+		
+		/*if(fridgeItem.getpurchasedDate() != null && fridgeItem.getExpirationDate() != null) {
 			fridgeItem.calculateLevel();
 		}
+		else {
+			fridgeItem.validateCategoryAndDates();
+		}*/
 
 		return itemRepo.save(fridgeItem);
 	}
@@ -66,6 +72,10 @@ public class FridgeController {
 	public Item editFridgeItem(@RequestBody Item fridgeItem, @PathVariable long id) {
 		fridgeItem.setId(id);
 		fridgeItem.setInFridge(true);
+		
+		fridgeItem.validateCategoryAndDates();
+		fridgeItem.calculateLevel();
+		
 		return itemRepo.save(fridgeItem);
 	}
 	

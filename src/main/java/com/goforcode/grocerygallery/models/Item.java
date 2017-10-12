@@ -212,7 +212,7 @@ public class Item {
 //		System.out.println("daysBetweenSECOND is: " + daysBetweenSecond);
 
 		double levelPercentage = daysBetweenfirst / daysBetweenSecond;
-		System.out.println("Level % is: " + levelPercentage);
+//		System.out.println("Level % is: " + levelPercentage);
 
 		if (levelPercentage <= 0.33) {
 			this.setLevel(1);
@@ -228,47 +228,167 @@ public class Item {
 		return this.level;
 	}
 	
-	/*public void validateCategory(String category) {
+	public void validateCategoryAndDates() {
 		
-		category = this.category;
-		if (category == null ) {
-			//do this
+		String category = this.category;
+		
+		if (category != null ) {
+			
+			System.out.println("Category: " + category);
+			
+			switch(category.toLowerCase()) {
+			
+		        case "eggs/dairy":  
+		        	if(this.getpurchasedDate() == null ) {
+			        	Calendar currentDate = Calendar.getInstance();
+			            Date date = new Date();
+			            currentDate.setTime(date);
+			            this.setpurchasedDate(currentDate.getTime());	
+		        	}
+		        	
+		        	if(this.getExpirationDate() == null) {
+			        	Calendar cal = Calendar.getInstance();
+			        	cal.setTime(purchasedDate);
+			        	cal.add(Calendar.DATE, 7);
+			        	this.setExpirationDate(cal.getTime());			        		
+		        	}
+		            break;
+		            
+		        case "meat":
+		        	if(this.getpurchasedDate() == null ) {
+			        	Calendar currentDate = Calendar.getInstance();
+			            Date date = new Date();
+			            currentDate.setTime(date);
+			            this.setpurchasedDate(currentDate.getTime());	
+		        	}
+		        	
+		        	if(this.getExpirationDate() == null) {
+			        	Calendar cal = Calendar.getInstance();
+			        	cal.setTime(purchasedDate);
+			        	cal.add(Calendar.DATE, 3);
+			        	this.setExpirationDate(cal.getTime());			        		
+		        	}
+		            break;
+		            
+		        case "produce":
+		        	if(this.getpurchasedDate() == null ) {
+			        	Calendar currentDate = Calendar.getInstance();
+			            Date date = new Date();
+			            currentDate.setTime(date);
+			            this.setpurchasedDate(currentDate.getTime());	
+		        	}
+		        	
+		        	if(this.getExpirationDate() == null) {
+			        	Calendar cal = Calendar.getInstance();
+			        	cal.setTime(purchasedDate);
+			        	cal.add(Calendar.DATE, 7);
+			        	this.setExpirationDate(cal.getTime());			        		
+		        	}
+		            break;
+		            
+		        case "grains/nuts":
+		        	if(this.getpurchasedDate() == null ) {
+			        	Calendar currentDate = Calendar.getInstance();
+			            Date date = new Date();
+			            currentDate.setTime(date);
+			            this.setpurchasedDate(currentDate.getTime());	
+		        	}
+		        	
+		        	if(this.getExpirationDate() == null) {
+			        	Calendar cal = Calendar.getInstance();
+			        	cal.setTime(purchasedDate);
+			        	cal.add(Calendar.DATE, 21);
+			        	this.setExpirationDate(cal.getTime());			        		
+		        	}
+		            break;
+		            
+		        case "sweets":
+		        	if(this.getpurchasedDate() == null ) {
+			        	Calendar currentDate = Calendar.getInstance();
+			            Date date = new Date();
+			            currentDate.setTime(date);
+			            this.setpurchasedDate(currentDate.getTime());	
+		        	}
+		        	
+		        	if(this.getExpirationDate() == null) {
+			        	Calendar cal = Calendar.getInstance();
+			        	cal.setTime(purchasedDate);
+			        	cal.add(Calendar.DATE, 7);
+			        	this.setExpirationDate(cal.getTime());			        		
+		        	}
+		            break;
+		            
+		        case "condiments":
+		        	if(this.getpurchasedDate() == null ) {
+			        	Calendar currentDate = Calendar.getInstance();
+			            Date date = new Date();
+			            currentDate.setTime(date);
+			            this.setpurchasedDate(currentDate.getTime());	
+		        	}
+		        	
+		        	if(this.getExpirationDate() == null) {
+			        	Calendar cal = Calendar.getInstance();
+			        	cal.setTime(purchasedDate);
+			        	cal.add(Calendar.DATE, 180);
+			        	this.setExpirationDate(cal.getTime());			        		
+		        	}
+		            break;
+		            
+		        case "other":
+		        	if(this.getpurchasedDate() == null ) {
+			        	Calendar currentDate = Calendar.getInstance();
+			            Date date = new Date();
+			            currentDate.setTime(date);
+			            this.setpurchasedDate(currentDate.getTime());	
+		        	}
+		        	
+		        	if(this.getExpirationDate() == null) {
+			        	Calendar cal = Calendar.getInstance();
+			        	cal.setTime(purchasedDate);
+			        	cal.add(Calendar.DATE, 7);
+			        	this.setExpirationDate(cal.getTime());			        		
+		        	}
+		            break;
+		            
+		        //this will never get hit but keeping for error handling purposes:
+		        default: 
+		        	this.setCategory("other");	
+		        	if(this.getpurchasedDate() == null ) {
+			        	Calendar currentDate = Calendar.getInstance();
+			            Date date = new Date();
+			            currentDate.setTime(date);
+			            this.setpurchasedDate(currentDate.getTime());	
+		        	}
+		        	
+		        	if(this.getExpirationDate() == null) {
+			        	Calendar cal = Calendar.getInstance();
+			        	cal.setTime(purchasedDate);
+			        	cal.add(Calendar.DATE, 7);
+			        	this.setExpirationDate(cal.getTime());			        		
+		        	}
+		            break;
+			 }
+		
 		}
-		 
-		switch(category.toLowerCase()) {
-		
-	        case "milk/dairy":
-	            break;
-
-	        case "meat":
-	            break;
-	            
-	        case "produce":
-	            break;
-	            
-	        case "grains":
-	            break;
-	            
-	        case "sweets":
-	            break;
-	            
-	        case "condiments":
-	            break;
-	            
-	        case "milk/dairy":
-	            break;
-	            
-	        default: 
-	            //this.expiration is in 1 week
-	            break;
-		 }
-		
-		
-		
+		else {
+			
+			this.setCategory("Other");
+			
+        	Calendar currentDate = Calendar.getInstance();
+            Date date = new Date();
+            currentDate.setTime(date);
+            this.setpurchasedDate(currentDate.getTime());
+            
+        	Calendar cal = Calendar.getInstance();
+        	cal.setTime(purchasedDate);
+        	cal.add(Calendar.DATE, 7);
+        	this.setExpirationDate(cal.getTime());
+			
+		}
 		
 		
 	}
-*/	
+
 	
 
 }
