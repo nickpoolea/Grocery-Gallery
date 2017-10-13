@@ -25,11 +25,9 @@ public class TrashController {
 
 	@GetMapping("/wasted")
 	public List<Item> returnWastedItemsInTrash(Authentication auth) {
-		/*Return wasted items in the trash */
 		List<Item> wastedList;
 		wastedList = itemRepo.findByWasWastedTrueAndUserIdEqualsOrderByTrashDateDesc(getPrincipalUser(auth).getId());
 		System.out.println(wastedList);
-		
 		return wastedList;
 		
 	}

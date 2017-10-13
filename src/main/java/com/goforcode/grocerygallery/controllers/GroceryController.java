@@ -30,16 +30,13 @@ public class GroceryController {
 	
 	@GetMapping("")
 	public List<Item> returnItemsInGroceryList(Authentication auth) {
-		/* Return a list of all items in the grocery list */
 		User user = (User) auth.getPrincipal();
 		long userId = user.getId();
-		
 		return itemRepo.findByInGroceryTrueAndUserIdEquals(userId); 
 	}
 	
 	@PostMapping("")
 	public Item addItemToGroceryList(@RequestBody Item item, Authentication auth) {
-		/* Add an item to the grocery list */
 		User user = (User) auth.getPrincipal();
 		item.setUser(user);
 		item.setInGrocery(true);
@@ -48,13 +45,11 @@ public class GroceryController {
 	
 	@GetMapping("/{id}")
 	public Item getDetailsOfGroceryItem(@PathVariable long id) {
-		/* Return the details of one grocery item */
 		return itemRepo.findOne(id);
 	}
 	
 	@PutMapping("/{id}")
 	public Item editGroceryItem(@PathVariable long id, @RequestBody Item item) {
-		/* Edit the details of one grocery item*/
 		item.setInGrocery(true);
 		item.setId(id);
 		return itemRepo.save(item);
@@ -62,7 +57,6 @@ public class GroceryController {
 	
 	@DeleteMapping("/{id}")
 	public Item deleteItemFromGroceryList(@PathVariable long id) {
-		/* Delete an item from the grocery list */
 		Item item = itemRepo.findOne(id);
 		itemRepo.delete(id);
 		return item;

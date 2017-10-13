@@ -53,9 +53,7 @@ public class FridgeController {
 		fridgeItem.setInFridge(true);
 		fridgeItem.validateCategoryAndDates();
 		fridgeItem.calculateLevel();
-		
 		fridgeItem.setUser(getPrincipalUser(auth));
-		
 		return itemRepo.save(fridgeItem);
 	}
 	
@@ -69,10 +67,8 @@ public class FridgeController {
 	public Item editFridgeItem(@RequestBody Item fridgeItem, @PathVariable long id) {
 		fridgeItem.setId(id);
 		fridgeItem.setInFridge(true);
-		
 		fridgeItem.validateCategoryAndDates();
 		fridgeItem.calculateLevel();
-		
 		return itemRepo.save(fridgeItem);
 	}
 	
