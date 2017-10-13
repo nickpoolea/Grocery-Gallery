@@ -11,8 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.goforcode.grocerygallery.services.GroceryUserDetailsService;
 
-//AuthenticationManager
-//UsernamePasswordAuthenticationToken
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
@@ -27,10 +25,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http	
 			.csrf().disable()
 			.authorizeRequests()
-				.antMatchers("/signup", "/login", "/").permitAll()
+				.antMatchers("/signup", "/login").permitAll()
 				.anyRequest().authenticated();
-//			.and()
-//			.formLogin();
 	}
 	
 	@Bean

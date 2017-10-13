@@ -64,11 +64,13 @@ public class User implements UserDetails {
 		roles.add(new UserRole(roleName, this));
 	}
 
-	public User(String firstName, String lastName, String email, String password) {
+	public User(String firstName, String lastName, String email, String password, String roleName) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
+		roles = new ArrayList<UserRole>();
+		roles.add(new UserRole(roleName, this));
 	}
 
 	public Long getId() {
