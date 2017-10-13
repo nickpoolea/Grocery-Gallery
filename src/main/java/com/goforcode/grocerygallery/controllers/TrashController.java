@@ -2,12 +2,14 @@ package com.goforcode.grocerygallery.controllers;
 
 import java.util.List;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.goforcode.grocerygallery.models.Item;
+import com.goforcode.grocerygallery.models.User;
 import com.goforcode.grocerygallery.repositories.ItemRepository;
 
 @RestController
@@ -22,10 +24,10 @@ public class TrashController {
 	}
 
 	@GetMapping("/wasted")
-	public List<Item> returnWastedItemsInTrash() {
+	public List<Item> returnWastedItemsInTrash(Authentication auth) {
 		/*Return wasted items in the trash */
 		List<Item> wastedList;
-		wastedList = itemRepo.findByWasWastedTrueOrderByExpirationDateDesc();
+		wastedList = itemRepo.findByWasWastedTrueAndUserIdEqualsOrderByTrashDateDesc(getPrincipalUser(auth).getId());
 		System.out.println(wastedList);
 		
 		return wastedList;
@@ -33,12 +35,26 @@ public class TrashController {
 	}
 	
 	@GetMapping("/finished")
-	public List<Item> returnFinishedItemsInTrash() {
+	public List<Item> returnFinishedItemsInTrash(Authentication auth) {
 		/*Return finished items in the trash */
 		List<Item> finishedList;
-		finishedList = itemRepo.findByWasFinishedTrue();
+		finishedList = itemRepo.findByWasFinishedTrueAndUserIdEqualsOrderByTrashDateDesc(getPrincipalUser(auth).getId());
 		
 		return finishedList;
+	}
+	
+	@GetMapping("")
+	public List<Item> returnAllItemsInTrasb(Authentication auth) {
+		/*Return finished items in the trash */
+		List<Item> allTrashList;
+		allTrashList = itemRepo.findByWasWastedTrueOrWasFinishedTrueAndUserIdEqualsOrderByTrashDateDesc(getPrincipalUser(auth).getId());
+		
+		return allTrashList;
+	}
+	
+	
+	public User getPrincipalUser(Authentication auth) {
+		return (User) auth.getPrincipal();
 	}
 	
 }

@@ -51,9 +51,9 @@ public class SeedData {
 		eggs.validateCategoryAndDates();
 //		System.out.println("Eggs level is: " + eggs.getLevel());
 		eggs.setInFridge(true);
-		System.out.println("EGG CATEGORY: " + eggs.getCategory() + 
-				"EGG EXP DATE: " + eggs.getExpirationDate() 
-				+ "EGG PURCHASE DATE " + eggs.getpurchasedDate());
+//		System.out.println("EGG CATEGORY: " + eggs.getCategory() + 
+//				"EGG EXP DATE: " + eggs.getExpirationDate() 
+//				+ "EGG PURCHASE DATE " + eggs.getpurchasedDate());
 		itemRepo.save(eggs);
 		
 		Item chickenFeet = new Item("Chicken Feet", "Eggs/Dairy", sdf.parse("10/4/2017"), sdf.parse("10/22/2017"));
@@ -112,7 +112,7 @@ public class SeedData {
 		
 		Item potatoes = new Item("Potatoes", "Produce", sdf.parse("10/20/2017"), sdf.parse("12/31/2017"));
 		potatoes.setUser(priya);
-		potatoes.setTrashDate(sdf.parse("10/10/2017"));
+		potatoes.setTrashDate(sdf.parse("10/13/2017"));
 		potatoes.setWasWasted(true);
 		potatoes.setLevel(potatoes.calculateLevel());
 //		System.out.println("Potato level is: " + potatoes.getLevel());

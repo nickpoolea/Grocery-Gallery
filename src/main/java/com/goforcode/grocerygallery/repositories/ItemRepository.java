@@ -11,13 +11,13 @@ import com.goforcode.grocerygallery.models.Item;
 public interface ItemRepository extends JpaRepository<Item, Long> {
 	
 	//Returns list of everything that was wasted in trash
-	List<Item> findByWasWastedTrueOrderByExpirationDateDesc();
+	List<Item> findByWasWastedTrueAndUserIdEqualsOrderByTrashDateDesc(long userId);
 	
 	//Returns list of everything that was finished in trash
-	List<Item> findByWasFinishedTrue();	
+	List<Item> findByWasFinishedTrueAndUserIdEqualsOrderByTrashDateDesc(long userId);	
 	
 	//Returns list of everything in the trash
-	List<Item> findByWasWastedTrueAndWasFinishedTrue();
+	List<Item> findByWasWastedTrueOrWasFinishedTrueAndUserIdEqualsOrderByTrashDateDesc(long userId);
 	
 	//Return All grocery items
 	List<Item> findByInGroceryTrue();
