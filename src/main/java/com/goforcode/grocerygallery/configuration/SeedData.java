@@ -34,28 +34,33 @@ public class SeedData {
 		brocolli.setUser(priya);
 		brocolli.setInFridge(true);
 		brocolli.setLevel(brocolli.calculateLevel());
-		System.out.println("Broccoli level is: " + brocolli.getLevel());
+//		System.out.println("Broccoli level is: " + brocolli.getLevel());
 		itemRepo.save(brocolli);
 		
-		Item milk = new Item("Mik", "Eggs/Dairy", sdf.parse("10/2/2017"), sdf.parse("10/18/2017"));
+		Item milk = new Item("Milk", "", sdf.parse("10/2/2017"), sdf.parse("10/18/2017"));
 		milk.setUser(priya);
 		milk.setInFridge(true);
 		milk.setLevel(milk.calculateLevel());
-		System.out.println("Milk level is: " + milk.getLevel());
+//		System.out.println("Milk level is: " + milk.getLevel());
 		itemRepo.save(milk);
 		
-		Item eggs = new Item("Eggs", "Eggs/Dairy", sdf.parse("10/3/2017"), sdf.parse("10/21/2017"));
+		Item eggs = new Item("Eggs");
 		eggs.setUser(priya);
 		eggs.setInGrocery(true);
 		eggs.setLevel(eggs.calculateLevel());
-		System.out.println("Eggs level is: " + eggs.getLevel());
+		eggs.validateCategoryAndDates();
+//		System.out.println("Eggs level is: " + eggs.getLevel());
+		eggs.setInFridge(true);
+		System.out.println("EGG CATEGORY: " + eggs.getCategory() + 
+				"EGG EXP DATE: " + eggs.getExpirationDate() 
+				+ "EGG PURCHASE DATE " + eggs.getpurchasedDate());
 		itemRepo.save(eggs);
 		
 		Item chickenFeet = new Item("Chicken Feet", "Eggs/Dairy", sdf.parse("10/4/2017"), sdf.parse("10/22/2017"));
 		chickenFeet.setUser(priya);
 		chickenFeet.setInGrocery(true);
 		chickenFeet.setLevel(chickenFeet.calculateLevel());
-		System.out.println("Chicken feet level is: " + chickenFeet.getLevel());
+//		System.out.println("Chicken feet level is: " + chickenFeet.getLevel());
 		itemRepo.save(chickenFeet);
 		
 		Item lettuce = new Item("Lettuce", "Produce", sdf.parse("10/3/2017"), sdf.parse("10/21/2017"));
@@ -63,7 +68,7 @@ public class SeedData {
 		lettuce.setTrashDate(sdf.parse("10/10/2017"));
 		lettuce.setWasFinished(true);
 		lettuce.setLevel(lettuce.calculateLevel());
-		System.out.println("Lettuce level is: " + lettuce.getLevel());
+//		System.out.println("Lettuce level is: " + lettuce.getLevel());
 		itemRepo.save(lettuce);
 		
 		Item apples = new Item("Apples", "Produce", sdf.parse("10/5/2017"), sdf.parse("10/29/2017"));
@@ -71,14 +76,14 @@ public class SeedData {
 		apples.setTrashDate(sdf.parse("10/10/2017"));
 		apples.setWasWasted(true);
 		apples.setLevel(apples.calculateLevel());
-		System.out.println("apples level is: " + apples.getLevel());
+//		System.out.println("apples level is: " + apples.getLevel());
 		itemRepo.save(apples);
 		
 		Item ketchup = new Item("Ketchup", "Condiments", sdf.parse("10/1/2017"), sdf.parse("12/1/2017"));
 		ketchup.setUser(priya);
 		ketchup.setInFridge(true);
 		ketchup.setLevel(ketchup.calculateLevel());
-		System.out.println("Ketchup level is: " + ketchup.getLevel());
+//		System.out.println("Ketchup level is: " + ketchup.getLevel());
 //		System.out.println("Ketchup level is: " + ketchup.calculateLevel());
 		itemRepo.save(ketchup);
 		
@@ -86,7 +91,7 @@ public class SeedData {
 		bread.setUser(priya);
 		bread.setInFridge(true);
 		bread.setLevel(bread.calculateLevel());
-		System.out.println("Bread level is: " + bread.getLevel());
+//		System.out.println("Bread level is: " + bread.getLevel());
 //		System.out.println("Bread level is: " + bread.calculateLevel());
 		itemRepo.save(bread);
 		
@@ -94,7 +99,7 @@ public class SeedData {
 		lemon.setUser(priya);
 		lemon.setInFridge(true);
 		lemon.setLevel(lemon.calculateLevel());
-		System.out.println("Lemon level is: " + lemon.getLevel());
+//		System.out.println("Lemon level is: " + lemon.getLevel());
 		itemRepo.save(lemon);
 		
 		Item onion = new Item("Onions", "Produce", sdf.parse("10/6/2017"), sdf.parse("10/30/2017"));
@@ -102,7 +107,7 @@ public class SeedData {
 		onion.setTrashDate(sdf.parse("10/10/2017"));
 		onion.setWasWasted(true);
 		onion.setLevel(onion.calculateLevel());
-		System.out.println("Onion level is: " + onion.getLevel());
+//		System.out.println("Onion level is: " + onion.getLevel());
 		itemRepo.save(onion);
 		
 		Item potatoes = new Item("Potatoes", "Produce", sdf.parse("10/20/2017"), sdf.parse("12/31/2017"));
@@ -110,7 +115,7 @@ public class SeedData {
 		potatoes.setTrashDate(sdf.parse("10/10/2017"));
 		potatoes.setWasWasted(true);
 		potatoes.setLevel(potatoes.calculateLevel());
-		System.out.println("Potato level is: " + potatoes.getLevel());
+//		System.out.println("Potato level is: " + potatoes.getLevel());
 		itemRepo.save(potatoes);
 		
 		
