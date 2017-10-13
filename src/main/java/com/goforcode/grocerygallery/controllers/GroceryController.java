@@ -3,7 +3,6 @@ package com.goforcode.grocerygallery.controllers;
 import java.util.List;
 
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +18,6 @@ import com.goforcode.grocerygallery.repositories.ItemRepository;
 
 @RestController
 @RequestMapping("/grocery")
-@CrossOrigin(origins = "*")
 public class GroceryController {
 	
 	private ItemRepository itemRepo;
