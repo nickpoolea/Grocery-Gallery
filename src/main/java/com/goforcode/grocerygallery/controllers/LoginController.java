@@ -1,7 +1,6 @@
 package com.goforcode.grocerygallery.controllers;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +12,6 @@ import com.goforcode.grocerygallery.repositories.UserRoleRepository;
 
 @RestController
 @RequestMapping("/")
-@CrossOrigin(origins = "*")
 public class LoginController {
 	
 	private UserRepository userRepo;
