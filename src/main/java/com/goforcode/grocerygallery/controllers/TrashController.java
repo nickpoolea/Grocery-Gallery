@@ -23,21 +23,17 @@ public class TrashController {
 
 	@GetMapping("/wasted")
 	public List<Item> returnWastedItemsInTrash() {
-		/*Return wasted items in the trash */
 		List<Item> wastedList;
 		wastedList = itemRepo.findByWasWastedTrueOrderByExpirationDateDesc();
 		System.out.println(wastedList);
-		
 		return wastedList;
 		
 	}
 	
 	@GetMapping("/finished")
 	public List<Item> returnFinishedItemsInTrash() {
-		/*Return finished items in the trash */
 		List<Item> finishedList;
 		finishedList = itemRepo.findByWasFinishedTrue();
-		
 		return finishedList;
 	}
 	

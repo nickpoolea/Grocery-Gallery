@@ -1,30 +1,36 @@
 package com.goforcode.grocerygallery.controllers;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.goforcode.grocerygallery.models.User;
+import com.goforcode.grocerygallery.repositories.UserRepository;
+import com.goforcode.grocerygallery.repositories.UserRoleRepository;
 
 @RestController
 @RequestMapping("/")
 @CrossOrigin(origins = "*")
 public class LoginController {
 	
-	private User tempUser = new User();
+	private UserRepository userRepo;
+	private PasswordEncoder encoder;
+	private UserRoleRepository roleRepo;
 	
-	@PostMapping("signup")
-	public User createNewUser(User user) {
-		/* Take in a user and save it to the user database */
-		return tempUser;
+	public LoginController(UserRepository userRepo, PasswordEncoder encoder, UserRoleRepository roleRepo) {
+		this.userRepo = userRepo;
+		this.encoder = encoder;
+		this.roleRepo = roleRepo;
 	}
-	
-//	@PostMapping("login")
-//	public User validateUserToLogin(User user) {
-//		/* Validate User credentials to log the user in */
-//		return tempUser;
-//	}
+			
+	@PostMapping("signup")
+	public User createNewUser(@RequestBody User user) {
+		user.setPassword(encoder.encode(user.getPassword()));
+		user.setRoles(roleRepo.findByNameEquals("USER"));
+		return userRepo.save(user);
+	}
 
 }

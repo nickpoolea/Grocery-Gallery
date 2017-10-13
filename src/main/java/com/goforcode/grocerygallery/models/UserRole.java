@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class UserRole {
 
@@ -18,6 +20,7 @@ public class UserRole {
 	private String name;
 	
 	@ManyToOne
+	@JsonIgnore
 	private User user;
 	
 	public UserRole() {}

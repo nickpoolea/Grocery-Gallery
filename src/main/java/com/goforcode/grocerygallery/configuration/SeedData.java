@@ -30,6 +30,7 @@ public class SeedData {
 		User priya = new User("Priya@gmail.com", encoder.encode("password"), "USER");
 		userRepo.save(priya);
 		
+		
 		Item brocolli = new Item("Brocolli", "Produce", sdf.parse("10/1/2017"), sdf.parse("10/20/2017"));
 		brocolli.setUser(priya);
 		brocolli.setInFridge(true);
@@ -117,6 +118,21 @@ public class SeedData {
 		potatoes.setLevel(potatoes.calculateLevel());
 //		System.out.println("Potato level is: " + potatoes.getLevel());
 		itemRepo.save(potatoes);
+		
+//		User tania = new User("Tania@gmail.com", encoder.encode("password"), "USER");
+//		userRepo.save(tania);
+//		
+//		Item tomatoes = new Item("Tomatoes", "Produce", sdf.parse("10/13/2017"), sdf.parse("12/15/2017"));
+//		tomatoes.setUser(tania);
+//		tomatoes.setInFridge(true);
+//		tomatoes.setLevel(tomatoes.calculateLevel());
+//		itemRepo.save(tomatoes);
+//		
+//		Item bread1 = new Item("Bread", "Produce", sdf.parse("10/1/2017"), sdf.parse("10/30/2017"));
+//		bread1.setUser(tania);
+//		bread1.setInGrocery(true);
+//		bread1.setLevel(bread1.calculateLevel());
+//		itemRepo.save(bread1);
 		
 		
 		
