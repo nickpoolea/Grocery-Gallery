@@ -67,5 +67,13 @@ public class GroceryController {
 		itemRepo.delete(id);
 		return item;
 	}
+	
+	@PostMapping("/{id}/fridge")
+	public Item moveAGroceryItemToFridge(@RequestBody Item fridgeItem, @PathVariable long id) {
+		Item item = itemRepo.findOne(id);
+		item.setInFridge(true);
+		item.setInGrocery(false);
+		return itemRepo.save(item);
+	}
 
 }
