@@ -14,7 +14,7 @@ import com.goforcode.grocerygallery.repositories.ItemRepository;
 
 @RestController
 @RequestMapping("/trash")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins="*")
 public class TrashController {
 	
 	private ItemRepository itemRepo;

@@ -19,7 +19,7 @@ import com.goforcode.grocerygallery.repositories.ItemRepository;
 
 @RestController
 @RequestMapping("/grocery")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins="*")
 public class GroceryController {
 	
 	private ItemRepository itemRepo;

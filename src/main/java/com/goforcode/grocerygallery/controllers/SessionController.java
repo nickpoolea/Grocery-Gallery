@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +19,7 @@ import com.goforcode.grocerygallery.models.User;
 import com.goforcode.grocerygallery.services.GroceryUserDetailsService;
 
 @RestController
+@CrossOrigin(origins="*")
 public class SessionController {
 	
 	private GroceryUserDetailsService groceryUserDetails;
