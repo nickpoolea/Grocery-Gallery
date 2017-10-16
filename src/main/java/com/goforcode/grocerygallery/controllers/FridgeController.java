@@ -50,8 +50,16 @@ public class FridgeController {
 	@PostMapping("")
 	public Item addItemToFridge(@RequestBody Item fridgeItem, Authentication auth) {
 		fridgeItem.setInFridge(true);
+		
+		//set every new item in fridge not available in other areas
+		fridgeItem.setInGrocery(false);
+		fridgeItem.setWasFinished(false);
+		fridgeItem.setWasWasted(false);
+		
+		//category and date validation if false
 		fridgeItem.validateCategoryAndDates();
 		fridgeItem.calculateLevel();
+		
 		fridgeItem.setUser(getPrincipalUser(auth));
 		return itemRepo.save(fridgeItem);
 	}
@@ -66,6 +74,12 @@ public class FridgeController {
 	public Item editFridgeItem(@RequestBody Item fridgeItem, @PathVariable long id) {
 		fridgeItem.setId(id);
 		fridgeItem.setInFridge(true);
+		
+		//set every updated item in fridge not available in other areas
+		fridgeItem.setInGrocery(false);
+		fridgeItem.setWasFinished(false);
+		fridgeItem.setWasWasted(false);
+		
 		fridgeItem.validateCategoryAndDates();
 		fridgeItem.calculateLevel();
 		return itemRepo.save(fridgeItem);
@@ -82,7 +96,12 @@ public class FridgeController {
 	public Item wasteAFridgeItem(@PathVariable long id) {
 		Item item = itemRepo.findOne(id);
 		item.setWasWasted(true);
+		
+		//validation of negative scenarios
 		item.setInFridge(false);
+		item.setInGrocery(false);
+		item.setWasFinished(false);
+		
 		return itemRepo.save(item);
 	}
 	
@@ -90,7 +109,12 @@ public class FridgeController {
 	public Item finishAFridgeItem(@PathVariable long id) {
 		Item item = itemRepo.findOne(id);
 		item.setWasFinished(true);
+		
+		//validation of negative scenarios
 		item.setInFridge(false);
+		item.setInGrocery(false);
+		item.setWasWasted(false);
+		
 		return itemRepo.save(item);
 	}
 
@@ -98,6 +122,12 @@ public class FridgeController {
 	public Item moveAFridgeItemToGrocery(@RequestBody Item fridgeItem, @PathVariable long id) {
 		Item item = itemRepo.findOne(id);
 		item.setInGrocery(true);
+		
+		//validation of negative scenarios
+		item.setInFridge(false);
+		item.setWasFinished(false);
+		item.setWasWasted(false);
+		
 		return itemRepo.save(item);
 	}
 	

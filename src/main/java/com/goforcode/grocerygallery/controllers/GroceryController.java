@@ -40,6 +40,12 @@ public class GroceryController {
 		User user = (User) auth.getPrincipal();
 		item.setUser(user);
 		item.setInGrocery(true);
+		
+		//validation of negative scenarios
+		item.setInFridge(false);
+		item.setWasFinished(false);
+		item.setWasWasted(false);
+		
 		return itemRepo.save(item);
 	}
 	
@@ -52,6 +58,12 @@ public class GroceryController {
 	public Item editGroceryItem(@PathVariable long id, @RequestBody Item item) {
 		item.setInGrocery(true);
 		item.setId(id);
+		
+		//validation of negative scenarios
+		item.setWasFinished(false);
+		item.setWasWasted(false);
+		item.setInFridge(false);
+		
 		return itemRepo.save(item);
 	}
 	
@@ -66,7 +78,12 @@ public class GroceryController {
 	public Item moveAGroceryItemToFridge(@RequestBody Item fridgeItem, @PathVariable long id) {
 		Item item = itemRepo.findOne(id);
 		item.setInFridge(true);
+		
+		//validation of negative scenarios
 		item.setInGrocery(false);
+		item.setWasWasted(false);
+		item.setWasFinished(false);
+		
 		return itemRepo.save(item);
 	}
 
