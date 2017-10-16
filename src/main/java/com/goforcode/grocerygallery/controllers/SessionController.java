@@ -32,6 +32,7 @@ public class SessionController {
 
 	@PostMapping("/login")
 	public boolean checkCredentials(@RequestBody User user) {
+		System.out.println("Login");
 		UserDetails userDetails = groceryUserDetails.loadUserByUsername(user.getEmail());
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDetails, user.getPassword(), userDetails.getAuthorities());
 		authenticator.authenticate(token);
@@ -43,7 +44,7 @@ public class SessionController {
 	     return token.isAuthenticated();
 	}
 	
-	@DeleteMapping("/logout")
+	@DeleteMapping("/log-out")
 	public Boolean logout(Authentication auth, HttpServletRequest request, HttpServletResponse response) {
 		new SecurityContextLogoutHandler().logout(request, response, auth);
 		return true;
