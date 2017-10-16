@@ -27,7 +27,7 @@ public class SeedData {
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 		 
 				
-		User priya = new User("Priya@gmail.com", encoder.encode("password"), "USER");
+		User priya = new User("Priya", "Prabhakar", "Priya@gmail.com", encoder.encode("password"), "USER");
 		userRepo.save(priya);
 		
 		
