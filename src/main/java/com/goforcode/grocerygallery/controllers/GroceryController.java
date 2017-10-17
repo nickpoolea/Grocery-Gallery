@@ -58,16 +58,25 @@ public class GroceryController {
 	}
 	
 	@PutMapping("/{id}")
-	public Item editGroceryItem(@PathVariable long id, @RequestBody Item item) {
-		item.setInGrocery(true);
-		item.setId(id);
+	public Item editGroceryItem(@PathVariable long id, @RequestBody Item item, Authentication auth) {
 		
-		//validation of negative scenarios
-		item.setWasFinished(false);
-		item.setWasWasted(false);
-		item.setInFridge(false);
+		// What do we do if this errors (NullPointerException)?
+		User user = (User) auth.getPrincipal();
+		Item searchItem = itemRepo.findByIdAndUserId(id, user.getId());
 		
-		return itemRepo.save(item);
+		if (searchItem != null ) {
+			
+			item.setInGrocery(true);
+			item.setUser(user);
+			item.setId(id);
+			
+			//validation of negative scenarios
+			item.setWasFinished(false);
+			item.setWasWasted(false);
+			item.setInFridge(false);
+			return itemRepo.save(item);
+		}
+		return new Item();
 	}
 	
 	@DeleteMapping("/{id}")
@@ -78,7 +87,7 @@ public class GroceryController {
 	}
 	
 	@PostMapping("/{id}/fridge")
-	public Item moveAGroceryItemToFridge(@RequestBody Item fridgeItem, @PathVariable long id) {
+	public Item moveAGroceryItemToFridge(@PathVariable long id) {
 		Item item = itemRepo.findOne(id);
 		item.setInFridge(true);
 		
