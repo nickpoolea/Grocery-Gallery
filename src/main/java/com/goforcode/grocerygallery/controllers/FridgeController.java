@@ -144,12 +144,6 @@ public class FridgeController {
 		User user = (User) auth.getPrincipal();
 		Item item = itemRepo.findByIdAndUserId(id, user.getId());
 		
-<<<<<<< HEAD
-		item.validateCategoryAndDates();
-		item.calculateLevel();
-		
-		return itemRepo.save(item);
-=======
 		if (item != null) {
 			item.setInGrocery(true);
 			
@@ -158,10 +152,12 @@ public class FridgeController {
 			item.setWasFinished(false);
 			item.setWasWasted(false);
 			
+			item.validateCategoryAndDates();
+			item.calculateLevel();
+			
 			return itemRepo.save(item);
 		}
 		return new Item();
->>>>>>> fd11540eb35469a1be9777433fec75e6d9a4372c
 	}
 	
 	public User getPrincipalUser(Authentication auth) {

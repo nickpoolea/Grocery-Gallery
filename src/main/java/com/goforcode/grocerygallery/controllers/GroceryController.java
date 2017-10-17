@@ -92,12 +92,6 @@ public class GroceryController {
 	public Item moveAGroceryItemToFridge(@PathVariable long id) {
 		Item item = itemRepo.findOne(id);
 		
-<<<<<<< HEAD
-		item.validateCategoryAndDates();
-		item.calculateLevel();
-		
-		return itemRepo.save(item);
-=======
 		if (item != null) {
 			item.setInFridge(true);
 			
@@ -106,10 +100,12 @@ public class GroceryController {
 			item.setWasWasted(false);
 			item.setWasFinished(false);
 			
+			item.validateCategoryAndDates();
+			item.calculateLevel();
+			
 			return itemRepo.save(item);
 		}
 		return new Item();
->>>>>>> fd11540eb35469a1be9777433fec75e6d9a4372c
 	}
 	
 	@PostMapping("/mail")
