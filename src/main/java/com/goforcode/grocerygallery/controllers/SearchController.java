@@ -3,6 +3,7 @@ package com.goforcode.grocerygallery.controllers;
 import java.io.IOException;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,7 @@ public class SearchController {
 		this.search = search;
 	}
 	
-	@PostMapping("")
+	@GetMapping("")
 	public JsonNode searchForItem(@RequestParam String query) {
 		try {
 			return search.searchForItems(query);
@@ -33,7 +34,7 @@ public class SearchController {
 		return null;
 	}
 	
-	@PostMapping("/{id}")
+	@GetMapping("/{id}")
 	public JsonNode getItemDetails(@PathVariable String id) {
 		try {
 			return search.getDetailsOfItem(id);
