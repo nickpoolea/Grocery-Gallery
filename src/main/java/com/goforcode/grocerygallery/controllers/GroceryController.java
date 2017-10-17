@@ -32,10 +32,9 @@ public class GroceryController {
 	}
 	
 	@GetMapping("")
-	public List<Item> returnItemsInGroceryList(Authentication auth) throws UnirestException {
+	public List<Item> returnItemsInGroceryList(Authentication auth) {
 		User user = (User) auth.getPrincipal();
-		long userId = user.getId();
-		return itemRepo.findByInGroceryTrueAndUserIdEquals(userId); 
+		return itemRepo.findByInGroceryTrueAndUserIdEquals(user.getId()); 
 	}
 	
 	@PostMapping("")
@@ -82,21 +81,28 @@ public class GroceryController {
 	@DeleteMapping("/{id}")
 	public Item deleteItemFromGroceryList(@PathVariable long id) {
 		Item item = itemRepo.findOne(id);
-		itemRepo.delete(id);
-		return item;
+		if (item != null) {
+			itemRepo.delete(id);
+			return item;
+		}
+		return new Item();
 	}
 	
 	@PostMapping("/{id}/fridge")
 	public Item moveAGroceryItemToFridge(@PathVariable long id) {
 		Item item = itemRepo.findOne(id);
-		item.setInFridge(true);
 		
-		//validation of negative scenarios
-		item.setInGrocery(false);
-		item.setWasWasted(false);
-		item.setWasFinished(false);
-		
-		return itemRepo.save(item);
+		if (item != null) {
+			item.setInFridge(true);
+			
+			//validation of negative scenarios
+			item.setInGrocery(false);
+			item.setWasWasted(false);
+			item.setWasFinished(false);
+			
+			return itemRepo.save(item);
+		}
+		return new Item();
 	}
 	
 	@PostMapping("/mail")

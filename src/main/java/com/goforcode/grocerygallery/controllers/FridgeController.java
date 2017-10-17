@@ -97,47 +97,64 @@ public class FridgeController {
 	@DeleteMapping("/{id}")
 	public Item deleteFridgeItem(@PathVariable long id) {
 		Item fridgeItem = itemRepo.findOne(id);
-		itemRepo.delete(id);
-		return fridgeItem;
+		if (fridgeItem != null) {
+			itemRepo.delete(id);
+			return fridgeItem;
+		}
+		return new Item();
 	}
 	
 	@PostMapping("/{id}/waste")
-	public Item wasteAFridgeItem(@PathVariable long id) {
-		Item item = itemRepo.findOne(id);
-		item.setWasWasted(true);
+	public Item wasteAFridgeItem(@PathVariable long id, Authentication auth) {
+		User user = (User) auth.getPrincipal();
+		Item item = itemRepo.findByIdAndUserId(id, user.getId());
 		
-		//validation of negative scenarios
-		item.setInFridge(false);
-		item.setInGrocery(false);
-		item.setWasFinished(false);
-		
-		return itemRepo.save(item);
+		if (item != null) {
+			item.setWasWasted(true);
+			
+			//validation of negative scenarios
+			item.setInFridge(false);
+			item.setInGrocery(false);
+			item.setWasFinished(false);
+			
+			return itemRepo.save(item);
+		}
+		return new Item();
 	}
 	
 	@PostMapping("/{id}/finish")
-	public Item finishAFridgeItem(@PathVariable long id) {
-		Item item = itemRepo.findOne(id);
-		item.setWasFinished(true);
-		
-		//validation of negative scenarios
-		item.setInFridge(false);
-		item.setInGrocery(false);
-		item.setWasWasted(false);
-		
-		return itemRepo.save(item);
+	public Item finishAFridgeItem(@PathVariable long id, Authentication auth) {
+		User user = (User) auth.getPrincipal();
+		Item item = itemRepo.findByIdAndUserId(id, user.getId());
+		if (item != null) {
+			item.setWasFinished(true);
+			
+			//validation of negative scenarios
+			item.setInFridge(false);
+			item.setInGrocery(false);
+			item.setWasWasted(false);
+			
+			return itemRepo.save(item);
+		}
+		return new Item();
 	}
 
 	@PostMapping("/{id}/grocery")
-	public Item moveAFridgeItemToGrocery(@PathVariable long id) {
-		Item item = itemRepo.findOne(id);
-		item.setInGrocery(true);
+	public Item moveAFridgeItemToGrocery(@PathVariable long id, AUthentication auth) {
+		User user = (User) auth.getPrincipal();
+		Item item = itemRepo.findByIdAndUserId(id, user.getId());
 		
-		//validation of negative scenarios
-		item.setInFridge(false);
-		item.setWasFinished(false);
-		item.setWasWasted(false);
-		
-		return itemRepo.save(item);
+		if (item != null) {
+			item.setInGrocery(true);
+			
+			//validation of negative scenarios
+			item.setInFridge(false);
+			item.setWasFinished(false);
+			item.setWasWasted(false);
+			
+			return itemRepo.save(item);
+		}
+		return new Item();
 	}
 	
 	public User getPrincipalUser(Authentication auth) {
