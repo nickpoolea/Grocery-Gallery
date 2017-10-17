@@ -79,8 +79,9 @@ public class GroceryController {
 	}
 	
 	@DeleteMapping("/{id}")
-	public Item deleteItemFromGroceryList(@PathVariable long id) {
-		Item item = itemRepo.findOne(id);
+	public Item deleteItemFromGroceryList(@PathVariable long id, Authentication auth) {
+		User user = (User) auth.getPrincipal();
+		Item item = itemRepo.findByIdAndUserId(id, user.getId());
 		if (item != null) {
 			itemRepo.delete(id);
 			return item;
@@ -89,8 +90,9 @@ public class GroceryController {
 	}
 	
 	@PostMapping("/{id}/fridge")
-	public Item moveAGroceryItemToFridge(@PathVariable long id) {
-		Item item = itemRepo.findOne(id);
+	public Item moveAGroceryItemToFridge(@PathVariable long id, Authentication auth) {
+		User user = (User) auth.getPrincipal();
+		Item item = itemRepo.findByIdAndUserId(id, user.getId());
 		
 		if (item != null) {
 			item.setInFridge(true);

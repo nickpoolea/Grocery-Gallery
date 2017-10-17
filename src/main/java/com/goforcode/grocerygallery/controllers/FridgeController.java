@@ -95,8 +95,9 @@ public class FridgeController {
 	}
 	
 	@DeleteMapping("/{id}")
-	public Item deleteFridgeItem(@PathVariable long id) {
-		Item fridgeItem = itemRepo.findOne(id);
+	public Item deleteFridgeItem(@PathVariable long id, Authentication auth) {
+		User user = (User) auth.getPrincipal();
+		Item fridgeItem = itemRepo.findByIdAndUserId(id, user.getId());
 		if (fridgeItem != null) {
 			itemRepo.delete(id);
 			return fridgeItem;
