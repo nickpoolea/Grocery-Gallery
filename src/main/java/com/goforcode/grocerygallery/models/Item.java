@@ -254,7 +254,7 @@ public class Item {
 		        	}
 		            break;
 		            
-		        case "meat":
+		        case "protein":
 		        	if(this.getpurchasedDate() == null ) {
 			        	Calendar currentDate = Calendar.getInstance();
 			            Date date = new Date();
