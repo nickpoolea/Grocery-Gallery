@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.goforcode.grocerygallery.models.GroceryEmail;
 import com.goforcode.grocerygallery.models.Item;
 import com.goforcode.grocerygallery.models.User;
 import com.goforcode.grocerygallery.repositories.ItemRepository;
+import com.goforcode.grocerygallery.services.MailService;
+import com.mashape.unirest.http.exceptions.UnirestException;
 
 @RestController
 @RequestMapping("/grocery")
@@ -31,8 +34,7 @@ public class GroceryController {
 	@GetMapping("")
 	public List<Item> returnItemsInGroceryList(Authentication auth) {
 		User user = (User) auth.getPrincipal();
-		long userId = user.getId();
-		return itemRepo.findByInGroceryTrueAndUserIdEquals(userId); 
+		return itemRepo.findByInGroceryTrueAndUserIdEquals(user.getId()); 
 	}
 	
 	@PostMapping("")
@@ -40,6 +42,12 @@ public class GroceryController {
 		User user = (User) auth.getPrincipal();
 		item.setUser(user);
 		item.setInGrocery(true);
+		
+		//validation of negative scenarios
+		item.setInFridge(false);
+		item.setWasFinished(false);
+		item.setWasWasted(false);
+		
 		return itemRepo.save(item);
 	}
 	
@@ -49,25 +57,76 @@ public class GroceryController {
 	}
 	
 	@PutMapping("/{id}")
-	public Item editGroceryItem(@PathVariable long id, @RequestBody Item item) {
-		item.setInGrocery(true);
-		item.setId(id);
-		return itemRepo.save(item);
+	public Item editGroceryItem(@PathVariable long id, @RequestBody Item item, Authentication auth) {
+		
+		// What do we do if this errors (NullPointerException)?
+		User user = (User) auth.getPrincipal();
+		Item searchItem = itemRepo.findByIdAndUserId(id, user.getId());
+		
+		if (searchItem != null ) {
+			
+			item.setInGrocery(true);
+			item.setUser(user);
+			item.setId(id);
+			
+			//validation of negative scenarios
+			item.setWasFinished(false);
+			item.setWasWasted(false);
+			item.setInFridge(false);
+			return itemRepo.save(item);
+		}
+		return new Item();
 	}
 	
 	@DeleteMapping("/{id}")
 	public Item deleteItemFromGroceryList(@PathVariable long id) {
 		Item item = itemRepo.findOne(id);
-		itemRepo.delete(id);
-		return item;
+		if (item != null) {
+			itemRepo.delete(id);
+			return item;
+		}
+		return new Item();
 	}
 	
 	@PostMapping("/{id}/fridge")
-	public Item moveAGroceryItemToFridge(@RequestBody Item fridgeItem, @PathVariable long id) {
+	public Item moveAGroceryItemToFridge(@PathVariable long id) {
 		Item item = itemRepo.findOne(id);
-		item.setInFridge(true);
-		item.setInGrocery(false);
-		return itemRepo.save(item);
+		
+		if (item != null) {
+			item.setInFridge(true);
+			
+			//validation of negative scenarios
+			item.setInGrocery(false);
+			item.setWasWasted(false);
+			item.setWasFinished(false);
+			
+			return itemRepo.save(item);
+		}
+		return new Item();
 	}
-
+	
+	@PostMapping("/mail")
+	public String emailGroceryList(@RequestBody GroceryEmail email, Authentication auth) throws UnirestException {
+		User user = (User) auth.getPrincipal();
+		email.setGroceryUsername(user.getFirstName());
+		email.setEmailSubject(email.getGroceryUsername() +"'s grocery list");
+		email.setEmailText(email.getGroceryUsername() + " has sent a grocery list!");
+		
+		List<Item> groceryItems = itemRepo.findByInGroceryTrueAndUserIdEquals(user.getId());
+		String response = "There are no items in the grocery list - No email sent";
+		
+		if (groceryItems.size() > 0) {
+			String html = "<ul>";
+			for(Item item: groceryItems) {
+				html += "<li>" + item.getName() + " - " + item.getQuantity() + "</li>";
+			}
+			html += "</ul>";
+			
+			email.setEmailHtml(html);
+			MailService mail = new MailService();
+			response = mail.sendMail(email);
+		}
+		
+		return response;
+	}
 }

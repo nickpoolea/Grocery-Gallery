@@ -10,6 +10,9 @@ import com.goforcode.grocerygallery.models.Item;
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Long> {
 	
+	//Make sure the user owns the item before editing
+	Item findByIdAndUserId(long itemId, long userId);
+	
 	//Returns list of everything that was wasted in trash
 	List<Item> findByWasWastedTrueAndUserIdEqualsOrderByTrashDateDesc(long userId);
 	

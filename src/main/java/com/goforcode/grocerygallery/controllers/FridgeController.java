@@ -50,8 +50,16 @@ public class FridgeController {
 	@PostMapping("")
 	public Item addItemToFridge(@RequestBody Item fridgeItem, Authentication auth) {
 		fridgeItem.setInFridge(true);
+		
+		//set every new item in fridge not available in other areas
+		fridgeItem.setInGrocery(false);
+		fridgeItem.setWasFinished(false);
+		fridgeItem.setWasWasted(false);
+		
+		//category and date validation if false
 		fridgeItem.validateCategoryAndDates();
 		fridgeItem.calculateLevel();
+		
 		fridgeItem.setUser(getPrincipalUser(auth));
 		return itemRepo.save(fridgeItem);
 	}
@@ -63,42 +71,90 @@ public class FridgeController {
 	}
 	
 	@PutMapping("/{id}")
-	public Item editFridgeItem(@RequestBody Item fridgeItem, @PathVariable long id) {
-		fridgeItem.setId(id);
-		fridgeItem.setInFridge(true);
-		fridgeItem.validateCategoryAndDates();
-		fridgeItem.calculateLevel();
-		return itemRepo.save(fridgeItem);
+	public Item editFridgeItem(@RequestBody Item fridgeItem, @PathVariable long id, Authentication auth) {
+		
+		//What do we do if this fails (NullPointerException)?
+		User user = (User) auth.getPrincipal();
+		Item searchItem = itemRepo.findByIdAndUserId(id, user.getId());
+		
+		if (searchItem != null) {
+			fridgeItem.setId(id);
+			fridgeItem.setInFridge(true);
+			fridgeItem.setUser(user);
+			
+			//set every updated item in fridge not available in other areas
+			fridgeItem.setInGrocery(false);
+			fridgeItem.setWasFinished(false);
+			fridgeItem.setWasWasted(false);
+			
+			fridgeItem.validateCategoryAndDates();
+			fridgeItem.calculateLevel();
+			return itemRepo.save(fridgeItem);
+		}
+		return new Item();
 	}
 	
 	@DeleteMapping("/{id}")
 	public Item deleteFridgeItem(@PathVariable long id) {
 		Item fridgeItem = itemRepo.findOne(id);
-		itemRepo.delete(id);
-		return fridgeItem;
+		if (fridgeItem != null) {
+			itemRepo.delete(id);
+			return fridgeItem;
+		}
+		return new Item();
 	}
 	
 	@PostMapping("/{id}/waste")
-	public Item wasteAFridgeItem(@PathVariable long id) {
-		Item item = itemRepo.findOne(id);
-		item.setWasWasted(true);
-		item.setInFridge(false);
-		return itemRepo.save(item);
+	public Item wasteAFridgeItem(@PathVariable long id, Authentication auth) {
+		User user = (User) auth.getPrincipal();
+		Item item = itemRepo.findByIdAndUserId(id, user.getId());
+		
+		if (item != null) {
+			item.setWasWasted(true);
+			
+			//validation of negative scenarios
+			item.setInFridge(false);
+			item.setInGrocery(false);
+			item.setWasFinished(false);
+			
+			return itemRepo.save(item);
+		}
+		return new Item();
 	}
 	
 	@PostMapping("/{id}/finish")
-	public Item finishAFridgeItem(@PathVariable long id) {
-		Item item = itemRepo.findOne(id);
-		item.setWasFinished(true);
-		item.setInFridge(false);
-		return itemRepo.save(item);
+	public Item finishAFridgeItem(@PathVariable long id, Authentication auth) {
+		User user = (User) auth.getPrincipal();
+		Item item = itemRepo.findByIdAndUserId(id, user.getId());
+		if (item != null) {
+			item.setWasFinished(true);
+			
+			//validation of negative scenarios
+			item.setInFridge(false);
+			item.setInGrocery(false);
+			item.setWasWasted(false);
+			
+			return itemRepo.save(item);
+		}
+		return new Item();
 	}
 
 	@PostMapping("/{id}/grocery")
-	public Item moveAFridgeItemToGrocery(@RequestBody Item fridgeItem, @PathVariable long id) {
-		Item item = itemRepo.findOne(id);
-		item.setInGrocery(true);
-		return itemRepo.save(item);
+	public Item moveAFridgeItemToGrocery(@PathVariable long id, AUthentication auth) {
+		User user = (User) auth.getPrincipal();
+		Item item = itemRepo.findByIdAndUserId(id, user.getId());
+		
+		if (item != null) {
+			item.setInGrocery(true);
+			
+			//validation of negative scenarios
+			item.setInFridge(false);
+			item.setWasFinished(false);
+			item.setWasWasted(false);
+			
+			return itemRepo.save(item);
+		}
+		return new Item();
 	}
 	
 	public User getPrincipalUser(Authentication auth) {
