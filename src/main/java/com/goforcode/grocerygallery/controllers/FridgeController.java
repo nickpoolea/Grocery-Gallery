@@ -140,7 +140,7 @@ public class FridgeController {
 	}
 
 	@PostMapping("/{id}/grocery")
-	public Item moveAFridgeItemToGrocery(@PathVariable long id, AUthentication auth) {
+	public Item moveAFridgeItemToGrocery(@PathVariable long id, Authentication auth) {
 		User user = (User) auth.getPrincipal();
 		Item item = itemRepo.findByIdAndUserId(id, user.getId());
 		
