@@ -137,6 +137,9 @@ public class FridgeController {
 		item.setWasFinished(false);
 		item.setWasWasted(false);
 		
+		item.validateCategoryAndDates();
+		item.calculateLevel();
+		
 		return itemRepo.save(item);
 	}
 	
