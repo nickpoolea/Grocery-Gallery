@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.goforcode.grocerygallery.models.Item;
@@ -159,6 +160,12 @@ public class FridgeController {
 			return itemRepo.save(item);
 		}
 		return new Item();
+	}
+	
+	@GetMapping("count")
+	public int countItemByLevel(@RequestParam int level, Authentication auth) {
+		User user = (User) auth.getPrincipal();
+		return itemRepo.countByInFridgeTrueAndUserIdEqualsAndLevelEquals(user.getId(), level);
 	}
 	
 	public User getPrincipalUser(Authentication auth) {

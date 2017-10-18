@@ -28,6 +28,10 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 	//Return All fridge items
 	List<Item> findByInFridgeTrueAndUserIdEquals(long id);
 
+	//Return grocery items of a user
 	List<Item> findByInGroceryTrueAndUserIdEquals(long userId);
+	
+	// Count items of a particular level in the fridge
+	int countByInFridgeTrueAndUserIdEqualsAndLevelEquals(long userId, int level); 
 
 }
