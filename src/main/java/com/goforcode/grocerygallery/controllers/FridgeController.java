@@ -142,12 +142,13 @@ public class FridgeController {
 	}
 
 	@PostMapping("/{id}/grocery")
-	public Item moveAFridgeItemToGrocery(@PathVariable long id, Authentication auth) {
+	public Item moveAFridgeItemToGrocery(@PathVariable long id, @RequestBody Item incomingItem, Authentication auth) {
 		User user = (User) auth.getPrincipal();
 		Item item = itemRepo.findByIdAndUserId(id, user.getId());
 		
 		if (item != null) {
 			item.setInGrocery(true);
+			item.setQuantity(incomingItem.getQuantity());
 			
 			//keep it in the fridge
 			item.setInFridge(true);
