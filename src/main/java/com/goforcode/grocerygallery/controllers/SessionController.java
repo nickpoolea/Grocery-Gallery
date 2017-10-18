@@ -46,10 +46,12 @@ public class SessionController {
 		 if (token.isAuthenticated()) {
 	            SecurityContextHolder.getContext().setAuthentication(token);
 	            
-/*	            List<Item> items = itemRepo.findAll();
+	            //Calculate the level for each item in repo upon each login
+	            List<Item> items = itemRepo.findAll();
 	            for(Item i : items) {
-	            	i.calculateLevel();	            	
-	            }*/
+	            	i.calculateLevel();	 
+	            	itemRepo.save(i);
+	            }
 	        }
 	     return token.isAuthenticated();
 	}
