@@ -41,7 +41,7 @@ public class SearchController {
 		return null;
 	}
 	
-	@PostMapping("/{id}")
+	@GetMapping("/{id}")
 	public Item saveItemWithApiDetails(@PathVariable String id, Authentication auth) throws JsonProcessingException, IOException {
 		User user = (User) auth.getPrincipal();
 		Item item = search.jsonDetailsToObect(id);
