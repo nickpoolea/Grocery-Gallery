@@ -26,22 +26,7 @@ public class ApiSearchService {
 		ObjectMapper mapper = new ObjectMapper();
 		
 		JsonNode root = mapper.readTree(response.getBody());
-
-//		while(!parser.isClosed()){
-//			
-//			if (JsonToken.FIELD_NAME.equals("name")) {
-//				 JsonToken jsonToken = parser.nextToken();
-//				 System.out.println("Token: " + jsonToken);
-//				 System.out.println(parser.getCurrentName());
-//				 System.out.println(parser.getText());
-//			}
-//		   
-//		}
-		
-//		ArrayList<SearchResult> res = mapper.readValues(parser, SearchResult.class)
-		
-		
-
+	
 		return root;
 	}
 	
@@ -50,36 +35,44 @@ public class ApiSearchService {
 		int expirationDays = 0;
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<String> response = restTemplate.getForEntity(detailUrl + itemId, String.class);
+		boolean isFinished = false;
 		
 		Date today = new Date();
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(today);
-		
-		
-//		JsonFactory factory = new JsonFactory();
-//		JsonParser  parser  = factory.createParser(response.getBody());
-//		while(!parser.isClosed()){
-//			JsonToken jsonToken = parser.nextToken();
-//		}
-		
+
 		Item item = new Item();		
 		ObjectMapper mapper = new ObjectMapper();
 		JsonNode root = mapper.readTree(response.getBody());
 		JsonNode methods = root.path("methods");
+		JsonNode selectedMethod = null;
+		
+		System.out.println("Root: " + root);
 		
 		for (JsonNode method: methods) {
 			if (method.path("location").toString().contains("Refrigerator")) {
-				
-				item.setName(root.path("name").toString().replaceAll("\"", ""));
-				item.setpurchasedDate(today);
-				
-				expirationDays = method.path("expirationTime").asInt() / seconds_in_a_day;
-				cal.add(Calendar.DAY_OF_YEAR, expirationDays);
-				item.setExpirationDate(cal.getTime());
-				
-				
+				selectedMethod = method;
+				isFinished = true;
 			}
 		}
+		for (JsonNode method: methods) {
+			if (method.path("location").toString().contains("Pantry") && !isFinished) {
+				selectedMethod = method;
+				isFinished = true;
+			}
+		}
+		if (!isFinished) {
+			selectedMethod = methods.get(0);
+			isFinished = true;
+		}
+				
+		item.setName(root.path("name").toString().replaceAll("\"", ""));
+		item.setpurchasedDate(today);
+				
+		expirationDays = selectedMethod.path("expirationTime").asInt() / seconds_in_a_day;
+		cal.add(Calendar.DAY_OF_YEAR, expirationDays);
+		item.setExpirationDate(cal.getTime());
+			
 		return item;
 	}
 	
