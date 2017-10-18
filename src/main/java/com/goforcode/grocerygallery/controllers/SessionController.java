@@ -32,7 +32,6 @@ public class SessionController {
 
 	@PostMapping("/login")
 	public boolean checkCredentials(@RequestBody User user) {
-		System.out.println("Login");
 		UserDetails userDetails = groceryUserDetails.loadUserByUsername(user.getEmail());
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDetails, user.getPassword(), userDetails.getAuthorities());
 		authenticator.authenticate(token);
