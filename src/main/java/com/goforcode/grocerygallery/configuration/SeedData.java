@@ -29,7 +29,7 @@ public class SeedData {
 				
 		User priya = new User("Priya", "Prabhakar", "Priya@gmail.com", encoder.encode("password"), "USER");
 		userRepo.save(priya);
-		
+//		System.out.println("Priya's ID is: " + priya.getId());
 		
 		Item brocolli = new Item("Brocolli", "Produce", sdf.parse("10/1/2017"), sdf.parse("10/20/2017"));
 		brocolli.setUser(priya);
