@@ -149,8 +149,10 @@ public class FridgeController {
 		if (item != null) {
 			item.setInGrocery(true);
 			
+			//keep it in the fridge
+			item.setInFridge(true);
+			
 			//validation of negative scenarios
-			item.setInFridge(false);
 			item.setWasFinished(false);
 			item.setWasWasted(false);
 			
