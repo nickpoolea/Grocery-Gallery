@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.goforcode.grocerygallery.models.Item;
@@ -95,8 +96,9 @@ public class FridgeController {
 	}
 	
 	@DeleteMapping("/{id}")
-	public Item deleteFridgeItem(@PathVariable long id) {
-		Item fridgeItem = itemRepo.findOne(id);
+	public Item deleteFridgeItem(@PathVariable long id, Authentication auth) {
+		User user = (User) auth.getPrincipal();
+		Item fridgeItem = itemRepo.findByIdAndUserId(id, user.getId());
 		if (fridgeItem != null) {
 			itemRepo.delete(id);
 			return fridgeItem;
@@ -140,21 +142,33 @@ public class FridgeController {
 	}
 
 	@PostMapping("/{id}/grocery")
-	public Item moveAFridgeItemToGrocery(@PathVariable long id, Authentication auth) {
+	public Item moveAFridgeItemToGrocery(@PathVariable long id, @RequestBody Item incomingItem, Authentication auth) {
 		User user = (User) auth.getPrincipal();
 		Item item = itemRepo.findByIdAndUserId(id, user.getId());
 		
 		if (item != null) {
 			item.setInGrocery(true);
+			item.setQuantity(incomingItem.getQuantity());
+			
+			//keep it in the fridge
+			item.setInFridge(true);
 			
 			//validation of negative scenarios
-			item.setInFridge(false);
 			item.setWasFinished(false);
 			item.setWasWasted(false);
+			
+			item.validateCategoryAndDates();
+			item.calculateLevel();
 			
 			return itemRepo.save(item);
 		}
 		return new Item();
+	}
+	
+	@GetMapping("count")
+	public int countItemByLevel(@RequestParam int level, Authentication auth) {
+		User user = (User) auth.getPrincipal();
+		return itemRepo.countByInFridgeTrueAndUserIdEqualsAndLevelEquals(user.getId(), level);
 	}
 	
 	public User getPrincipalUser(Authentication auth) {

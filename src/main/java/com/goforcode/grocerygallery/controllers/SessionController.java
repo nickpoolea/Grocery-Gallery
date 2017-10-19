@@ -1,5 +1,7 @@
 package com.goforcode.grocerygallery.controllers;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,7 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.goforcode.grocerygallery.models.Item;
 import com.goforcode.grocerygallery.models.User;
+import com.goforcode.grocerygallery.repositories.ItemRepository;
 import com.goforcode.grocerygallery.services.GroceryUserDetailsService;
 
 @RestController
@@ -24,15 +28,16 @@ public class SessionController {
 	
 	private GroceryUserDetailsService groceryUserDetails;
 	private AuthenticationManager authenticator;
+	private ItemRepository itemRepo;
 	
-	public SessionController(GroceryUserDetailsService groceryUserDetails, AuthenticationManager authenticator) {
+	public SessionController(GroceryUserDetailsService groceryUserDetails, AuthenticationManager authenticator, ItemRepository itemRepo) {
 		this.groceryUserDetails = groceryUserDetails;
 		this.authenticator = authenticator;
+		this.itemRepo = itemRepo;
 	}
 
 	@PostMapping("/login")
 	public boolean checkCredentials(@RequestBody User user) {
-		System.out.println("Login");
 		UserDetails userDetails = groceryUserDetails.loadUserByUsername(user.getEmail());
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDetails, user.getPassword(), userDetails.getAuthorities());
 		authenticator.authenticate(token);
@@ -40,6 +45,13 @@ public class SessionController {
 		
 		 if (token.isAuthenticated()) {
 	            SecurityContextHolder.getContext().setAuthentication(token);
+	            
+	            //Calculate the level for each item in repo upon each login
+	            List<Item> items = itemRepo.findAll();
+	            for(Item i : items) {
+	            	i.calculateLevel();	 
+	            	itemRepo.save(i);
+	            }
 	        }
 	     return token.isAuthenticated();
 	}

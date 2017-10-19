@@ -254,7 +254,7 @@ public class Item {
 		        	}
 		            break;
 		            
-		        case "meat":
+		        case "protein":
 		        	if(this.getpurchasedDate() == null ) {
 			        	Calendar currentDate = Calendar.getInstance();
 			            Date date = new Date();
@@ -286,7 +286,7 @@ public class Item {
 		        	}
 		            break;
 		            
-		        case "grains/nuts":
+		        case "grains":
 		        	if(this.getpurchasedDate() == null ) {
 			        	Calendar currentDate = Calendar.getInstance();
 			            Date date = new Date();
@@ -298,22 +298,6 @@ public class Item {
 			        	Calendar cal = Calendar.getInstance();
 			        	cal.setTime(purchasedDate);
 			        	cal.add(Calendar.DATE, 21);
-			        	this.setExpirationDate(cal.getTime());			        		
-		        	}
-		            break;
-		            
-		        case "sweets":
-		        	if(this.getpurchasedDate() == null ) {
-			        	Calendar currentDate = Calendar.getInstance();
-			            Date date = new Date();
-			            currentDate.setTime(date);
-			            this.setpurchasedDate(currentDate.getTime());	
-		        	}
-		        	
-		        	if(this.getExpirationDate() == null) {
-			        	Calendar cal = Calendar.getInstance();
-			        	cal.setTime(purchasedDate);
-			        	cal.add(Calendar.DATE, 7);
 			        	this.setExpirationDate(cal.getTime());			        		
 		        	}
 		            break;
