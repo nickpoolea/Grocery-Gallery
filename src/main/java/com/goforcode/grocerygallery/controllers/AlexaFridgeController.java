@@ -36,7 +36,6 @@ public class AlexaFridgeController {
 	@GetMapping("")
 	public List<Item> getItems(HttpServletRequest request, HttpServletResponse response) {
 		String header = request.getHeader("X-SECRET-API-KEY");
-		System.out.println("Header: " + request.getHeader("X-SECRET-API-KEY"));
 		if (!"2039rj0aeijf98je0rij0ej9r0".equals(header)) {
 			response.setStatus(403);
 		}		
@@ -47,7 +46,6 @@ public class AlexaFridgeController {
 	
 	@PostMapping("")
 	public Item addItemToFridge(@RequestBody Item fridgeItem, HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("Hi");
 		String header = request.getHeader("X-SECRET-API-KEY");
 		if (!"2039rj0aeijf98je0rij0ej9r0".equals(header)) {
 			response.setStatus(403);
