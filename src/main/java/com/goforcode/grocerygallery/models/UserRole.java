@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -13,7 +14,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class UserRole {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(generator = "UserRoleIdSeq", strategy = GenerationType.AUTO)
+	@SequenceGenerator(name = "UserRoleIdSeq", sequenceName = "UserRoleIdSeq")
 	private Long id;
 
 	@Column(nullable=false)

@@ -49,7 +49,10 @@ public class User implements UserDetails {
 	private String password;
 	
 	@OneToMany(mappedBy="user")
-	private List<Item> items;
+	private List<GroceryListItem> groceryListItems;
+	
+	@OneToMany(mappedBy="user")
+	private List<FridgeItem> fridgeItems;
 	
 	@OneToMany(fetch=FetchType.EAGER, mappedBy="user", cascade=CascadeType.ALL)
 	private List<UserRole> roles;
@@ -112,14 +115,6 @@ public class User implements UserDetails {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-	public List<Item> getItems() {
-		return items;
-	}
-
-	public void setItems(List<Item> items) {
-		this.items = items;
-	}
 	
 	@JsonIgnore
 	@Override
@@ -169,6 +164,22 @@ public class User implements UserDetails {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public List<GroceryListItem> getGroceryListItems() {
+		return groceryListItems;
+	}
+
+	public void setGroceryListItems(List<GroceryListItem> groceryListItems) {
+		this.groceryListItems = groceryListItems;
+	}
+
+	public List<FridgeItem> getFridgeItems() {
+		return fridgeItems;
+	}
+
+	public void setFridgeItems(List<FridgeItem> fridgeItems) {
+		this.fridgeItems = fridgeItems;
 	}
 
 }
