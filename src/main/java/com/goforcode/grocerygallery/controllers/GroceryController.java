@@ -102,7 +102,7 @@ public class GroceryController {
 			item.setWasWasted(false);
 			item.setWasFinished(false);
 			
-			item.validateCategoryAndDates();
+//			item.validateCategoryAndDates();
 			item.calculateLevel();
 			
 			return itemRepo.save(item);

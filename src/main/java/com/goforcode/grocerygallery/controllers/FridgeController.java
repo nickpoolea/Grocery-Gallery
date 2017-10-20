@@ -58,7 +58,7 @@ public class FridgeController {
 		fridgeItem.setWasWasted(false);
 		
 		//category and date validation if false
-		fridgeItem.validateCategoryAndDates();
+//		fridgeItem.validateCategoryAndDates();
 		fridgeItem.calculateLevel();
 		
 		fridgeItem.setUser(getPrincipalUser(auth));
@@ -88,7 +88,7 @@ public class FridgeController {
 			fridgeItem.setWasFinished(false);
 			fridgeItem.setWasWasted(false);
 			
-			fridgeItem.validateCategoryAndDates();
+//			fridgeItem.validateCategoryAndDates();
 			fridgeItem.calculateLevel();
 			return itemRepo.save(fridgeItem);
 		}
@@ -157,7 +157,7 @@ public class FridgeController {
 			item.setWasFinished(false);
 			item.setWasWasted(false);
 			
-			item.validateCategoryAndDates();
+//			item.validateCategoryAndDates();
 			item.calculateLevel();
 			
 			return itemRepo.save(item);
