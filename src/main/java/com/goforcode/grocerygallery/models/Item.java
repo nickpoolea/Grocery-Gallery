@@ -336,7 +336,7 @@ public class Item {
 		            
 		        //this will never get hit but keeping for error handling purposes:
 		        default: 
-		        	this.setCategory("other");	
+//		        	this.setCategory("other");	
 		        	if(this.getpurchasedDate() == null ) {
 			        	Calendar currentDate = Calendar.getInstance();
 			            Date date = new Date();
