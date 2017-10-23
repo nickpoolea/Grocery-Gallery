@@ -35,7 +35,7 @@ public class AlexaGroceryController {
 		if (!"2039rj0aeijf98je0rij0ej9r0".equals(header)) {
 			response.setStatus(403);
 		}
-		return itemRepo.findByInGroceryTrueAndUserIdEquals(1L);
+		return itemRepo.findByInGroceryTrueAndUserIdEqualsOrderByName(1L);
 	}
 	
 	@PostMapping("")

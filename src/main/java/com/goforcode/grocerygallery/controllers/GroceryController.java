@@ -34,7 +34,7 @@ public class GroceryController {
 	@GetMapping("")
 	public List<Item> returnItemsInGroceryList(Authentication auth) {
 		User user = (User) auth.getPrincipal();
-		return itemRepo.findByInGroceryTrueAndUserIdEquals(user.getId()); 
+		return itemRepo.findByInGroceryTrueAndUserIdEqualsOrderByName(user.getId()); 
 	}
 	
 	@PostMapping("")
@@ -117,7 +117,7 @@ public class GroceryController {
 		email.setEmailSubject(email.getGroceryUsername() +"'s grocery list");
 		email.setEmailText(email.getGroceryUsername() + " has sent a grocery list!");
 		
-		List<Item> groceryItems = itemRepo.findByInGroceryTrueAndUserIdEquals(user.getId());
+		List<Item> groceryItems = itemRepo.findByInGroceryTrueAndUserIdEqualsOrderByName(user.getId());
 		String response = "There are no items in the grocery list - No email sent";
 		
 		if (groceryItems.size() > 0) {

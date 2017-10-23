@@ -45,7 +45,7 @@ public class FridgeController {
 	
 	@GetMapping("")
 	public List<Item> returnItemsInFridge(Authentication auth) {
-		return itemRepo.findByInFridgeTrueAndUserIdEquals(getPrincipalUser(auth).getId());
+		return itemRepo.findByInFridgeTrueAndUserIdEqualsOrderByExpirationDate(getPrincipalUser(auth).getId());
 	}
 	
 	@PostMapping("")

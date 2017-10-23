@@ -39,7 +39,7 @@ public class AlexaFridgeController {
 		if (!"2039rj0aeijf98je0rij0ej9r0".equals(header)) {
 			response.setStatus(403);
 		}		
-		List<Item> itemsList = itemRepo.findByInFridgeTrueAndUserIdEquals(1);
+		List<Item> itemsList = itemRepo.findByInFridgeTrueAndUserIdEqualsOrderByExpirationDate(1);
 		return itemsList;
 	
 	}
