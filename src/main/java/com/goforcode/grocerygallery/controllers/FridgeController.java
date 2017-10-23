@@ -45,12 +45,17 @@ public class FridgeController {
 	
 	@GetMapping("")
 	public List<Item> returnItemsInFridge(Authentication auth) {
-		return itemRepo.findByInFridgeTrueAndUserIdEquals(getPrincipalUser(auth).getId());
+		return itemRepo.findByInFridgeTrueAndUserIdEqualsOrderByExpirationDate(getPrincipalUser(auth).getId());
 	}
 	
 	@PostMapping("")
 	public Item addItemToFridge(@RequestBody Item fridgeItem, Authentication auth) {
 		fridgeItem.setInFridge(true);
+		
+		System.out.println("Item purchase date: " + fridgeItem.getpurchasedDate());
+		System.out.println("Item expiration date: " + fridgeItem.getExpirationDate());
+	
+		
 		
 		//set every new item in fridge not available in other areas
 		fridgeItem.setInGrocery(false);
@@ -58,7 +63,7 @@ public class FridgeController {
 		fridgeItem.setWasWasted(false);
 		
 		//category and date validation if false
-		fridgeItem.validateCategoryAndDates();
+//		fridgeItem.validateCategoryAndDates();
 		fridgeItem.calculateLevel();
 		
 		fridgeItem.setUser(getPrincipalUser(auth));
@@ -88,7 +93,7 @@ public class FridgeController {
 			fridgeItem.setWasFinished(false);
 			fridgeItem.setWasWasted(false);
 			
-			fridgeItem.validateCategoryAndDates();
+//			fridgeItem.validateCategoryAndDates();
 			fridgeItem.calculateLevel();
 			return itemRepo.save(fridgeItem);
 		}
@@ -157,7 +162,7 @@ public class FridgeController {
 			item.setWasFinished(false);
 			item.setWasWasted(false);
 			
-			item.validateCategoryAndDates();
+//			item.validateCategoryAndDates();
 			item.calculateLevel();
 			
 			return itemRepo.save(item);
