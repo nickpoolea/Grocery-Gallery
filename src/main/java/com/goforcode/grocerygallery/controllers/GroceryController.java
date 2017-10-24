@@ -43,11 +43,6 @@ public class GroceryController {
 		item.setUser(user);
 		item.setInGrocery(true);
 		
-		//validation of negative scenarios
-		item.setInFridge(false);
-		item.setWasFinished(false);
-		item.setWasWasted(false);
-		
 		return itemRepo.save(item);
 	}
 	
@@ -64,15 +59,10 @@ public class GroceryController {
 		Item searchItem = itemRepo.findByIdAndUserId(id, user.getId());
 		
 		if (searchItem != null ) {
-			
 			item.setInGrocery(true);
 			item.setUser(user);
 			item.setId(id);
 			
-			//validation of negative scenarios
-			item.setWasFinished(false);
-			item.setWasWasted(false);
-			item.setInFridge(false);
 			return itemRepo.save(item);
 		}
 		return new Item();
@@ -96,13 +86,6 @@ public class GroceryController {
 		
 		if (item != null) {
 			item.setInFridge(true);
-			
-			//validation of negative scenarios
-			item.setInGrocery(false);
-			item.setWasWasted(false);
-			item.setWasFinished(false);
-			
-//			item.validateCategoryAndDates();
 			item.calculateLevel();
 			
 			return itemRepo.save(item);

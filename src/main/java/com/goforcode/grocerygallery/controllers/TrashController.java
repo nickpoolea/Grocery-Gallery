@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -48,6 +50,28 @@ public class TrashController {
 		allTrashList = itemRepo.findByWasWastedTrueOrWasFinishedTrueAndUserIdEqualsOrderByTrashDateDesc(getPrincipalUser(auth).getId());
 		
 		return allTrashList;
+	}
+	
+	
+	//Currently unused - front end has to change their code to send
+	//item object rather than just ID 
+	@PostMapping("/wasted")
+	public Item addItemToWasted(@RequestBody Item item, Authentication auth) {
+		item.setWasWasted(true);
+
+		item.setUser(getPrincipalUser(auth));
+		return itemRepo.save(item);	
+	}
+	
+	
+	//Currently unused - front end has to change their code to send
+	//item object rather than just ID 
+	@PostMapping("/finished")
+	public Item addItemToFinished(@RequestBody Item item, Authentication auth) {
+		item.setWasFinished(true);
+		
+		item.setUser(getPrincipalUser(auth));
+		return itemRepo.save(item);
 	}
 	
 	

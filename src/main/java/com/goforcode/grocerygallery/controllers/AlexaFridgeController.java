@@ -54,14 +54,6 @@ public class AlexaFridgeController {
 		User user = userRepo.findOne(1L);
 		
 		fridgeItem.setInFridge(true);
-		
-		//set every new item in fridge not available in other areas
-		fridgeItem.setInGrocery(false);
-		fridgeItem.setWasFinished(false);
-		fridgeItem.setWasWasted(false);
-		
-		//category and date validation if false
-		fridgeItem.validateCategoryAndDates();
 		fridgeItem.calculateLevel();
 		
 		fridgeItem.setUser(user);

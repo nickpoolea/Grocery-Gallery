@@ -123,11 +123,17 @@ public class Item {
 		this.expirationDate = expirationDate;
 	}
 
-	public boolean isInFridge() {
+	public boolean isInFridge() {		
 		return inFridge;
 	}
 
 	public void setInFridge(boolean inFridge) {
+		if(inFridge == true) {
+			this.setWasFinished(false);
+			this.setWasWasted(false);
+			this.setInGrocery(false);
+		}
+	
 		this.inFridge = inFridge;
 	}
 
@@ -136,6 +142,10 @@ public class Item {
 	}
 
 	public void setInGrocery(boolean inGrocery) {
+		if(inGrocery == true) {
+			this.setWasFinished(false);
+			this.setWasWasted(false);
+		}
 		this.inGrocery = inGrocery;
 	}
 
@@ -144,6 +154,11 @@ public class Item {
 	}
 
 	public void setWasWasted(boolean wasWasted) {
+		if(wasWasted == true) {
+			this.setInGrocery(false);
+			this.setWasFinished(false);
+			this.setInFridge(false);
+		}
 		this.wasWasted = wasWasted;
 	}
 
@@ -152,6 +167,11 @@ public class Item {
 	}
 
 	public void setWasFinished(boolean wasFinished) {
+		if(wasFinished == true) {
+			this.setInGrocery(false);
+			this.setInFridge(false);
+			this.setWasWasted(false);
+		}
 		this.wasFinished = wasFinished;
 	}
 

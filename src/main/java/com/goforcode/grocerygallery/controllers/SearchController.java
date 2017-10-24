@@ -47,11 +47,8 @@ public class SearchController {
 		Item item = search.jsonDetailsToObect(id);
 		item.setUser(user);
 		
-		//Temporary - Set item in fridge
 		item.setInFridge(true);
-		item.setInGrocery(false);
-		item.setWasFinished(false);
-		item.setWasWasted(false);
+
 		return itemRepo.save(item);
 	}
 

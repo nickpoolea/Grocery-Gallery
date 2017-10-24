@@ -29,20 +29,6 @@ public class FridgeController {
 		this.itemRepo = itemRepo;
 	}
 	
-	/* This needs to be fixed before it is uncommented
-	// To allow search to work
-	@GetMapping("")
-	public List<Item> returnItemsInFridge(String partialTitle) {
-		List<Item> returnList;
-		if(partialTitle != null) {
-			returnList = itemRepo.findByTitleContaining(partialTitle);	
-		}
-		else {
-			returnList = itemRepo.findAll();	
-		}
-		return returnList;
-	}*/
-	
 	@GetMapping("")
 	public List<Item> returnItemsInFridge(Authentication auth) {
 		return itemRepo.findByInFridgeTrueAndUserIdEqualsOrderByExpirationDate(getPrincipalUser(auth).getId());
@@ -51,19 +37,6 @@ public class FridgeController {
 	@PostMapping("")
 	public Item addItemToFridge(@RequestBody Item fridgeItem, Authentication auth) {
 		fridgeItem.setInFridge(true);
-		
-		System.out.println("Item purchase date: " + fridgeItem.getpurchasedDate());
-		System.out.println("Item expiration date: " + fridgeItem.getExpirationDate());
-	
-		
-		
-		//set every new item in fridge not available in other areas
-		fridgeItem.setInGrocery(false);
-		fridgeItem.setWasFinished(false);
-		fridgeItem.setWasWasted(false);
-		
-		//category and date validation if false
-//		fridgeItem.validateCategoryAndDates();
 		fridgeItem.calculateLevel();
 		
 		fridgeItem.setUser(getPrincipalUser(auth));
@@ -87,13 +60,6 @@ public class FridgeController {
 			fridgeItem.setId(id);
 			fridgeItem.setInFridge(true);
 			fridgeItem.setUser(user);
-			
-			//set every updated item in fridge not available in other areas
-			fridgeItem.setInGrocery(false);
-			fridgeItem.setWasFinished(false);
-			fridgeItem.setWasWasted(false);
-			
-//			fridgeItem.validateCategoryAndDates();
 			fridgeItem.calculateLevel();
 			return itemRepo.save(fridgeItem);
 		}
@@ -111,36 +77,26 @@ public class FridgeController {
 		return new Item();
 	}
 	
+	//If front end implements TrashController mappings we can delete this
 	@PostMapping("/{id}/waste")
 	public Item wasteAFridgeItem(@PathVariable long id, Authentication auth) {
 		User user = (User) auth.getPrincipal();
 		Item item = itemRepo.findByIdAndUserId(id, user.getId());
 		
 		if (item != null) {
-			item.setWasWasted(true);
-			
-			//validation of negative scenarios
-			item.setInFridge(false);
-			item.setInGrocery(false);
-			item.setWasFinished(false);
-			
+			item.setWasWasted(true);			
 			return itemRepo.save(item);
 		}
 		return new Item();
 	}
 	
+	//If front end implements TrashController mappings we can delete this
 	@PostMapping("/{id}/finish")
 	public Item finishAFridgeItem(@PathVariable long id, Authentication auth) {
 		User user = (User) auth.getPrincipal();
 		Item item = itemRepo.findByIdAndUserId(id, user.getId());
 		if (item != null) {
-			item.setWasFinished(true);
-			
-			//validation of negative scenarios
-			item.setInFridge(false);
-			item.setInGrocery(false);
-			item.setWasWasted(false);
-			
+			item.setWasFinished(true);			
 			return itemRepo.save(item);
 		}
 		return new Item();
@@ -154,17 +110,7 @@ public class FridgeController {
 		if (item != null) {
 			item.setInGrocery(true);
 			item.setQuantity(incomingItem.getQuantity());
-			
-			//keep it in the fridge
-			item.setInFridge(true);
-			
-			//validation of negative scenarios
-			item.setWasFinished(false);
-			item.setWasWasted(false);
-			
-//			item.validateCategoryAndDates();
 			item.calculateLevel();
-			
 			return itemRepo.save(item);
 		}
 		return new Item();

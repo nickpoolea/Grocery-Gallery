@@ -48,11 +48,6 @@ public class AlexaGroceryController {
 		item.setUser(user);
 		item.setInGrocery(true);
 		
-		//validation of negative scenarios
-		item.setInFridge(false);
-		item.setWasFinished(false);
-		item.setWasWasted(false);
-		
 		return itemRepo.save(item);
 	}
 
