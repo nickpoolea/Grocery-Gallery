@@ -61,7 +61,6 @@ public class AlexaFridgeController {
 		fridgeItem.setWasWasted(false);
 		
 		//category and date validation if false
-		fridgeItem.validateCategoryAndDates();
 		fridgeItem.calculateLevel();
 		
 		fridgeItem.setUser(user);
