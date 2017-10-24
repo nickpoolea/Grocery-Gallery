@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 //import org.joda.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.goforcode.grocerygallery.configuration.Freshness;
 
 @Entity
 // @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
@@ -163,13 +164,12 @@ public class Item {
 		this.user = user;
 	}
 
-	public double getLevel() {
-
-		return level;
+	public int getLevel() {
+		return (int) level;
 	}
 
-	public void setLevel(int level) {
-		this.level = level;
+	public void setLevel(int freshness) {
+		this.level = freshness;
 	}
 
 	public int getQuantity() {
@@ -215,14 +215,14 @@ public class Item {
 //		System.out.println("Level % is: " + levelPercentage);
 
 		if (levelPercentage <= 0.33) {
-			this.setLevel(1);
+			this.setLevel(Freshness.FRESH.ordinal());
 		} else if (levelPercentage <= 0.55 && levelPercentage > 0.33) {
-			this.setLevel(2);
+			this.setLevel(Freshness.CONSUMABLE.ordinal());
 		} else if (levelPercentage <= 0.99 && levelPercentage > 0.55) {
-			this.setLevel(3);
+			this.setLevel(Freshness.EXPIRING.ordinal());
 		}
 		else {
-			this.setLevel(4);
+			this.setLevel(Freshness.SPOILED.ordinal());
 		}
 
 		return this.level;
