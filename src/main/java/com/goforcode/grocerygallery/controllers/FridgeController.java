@@ -1,5 +1,7 @@
 package com.goforcode.grocerygallery.controllers;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.security.core.Authentication;
@@ -15,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.goforcode.grocerygallery.models.Item;
+import com.goforcode.grocerygallery.models.ItemReference;
 import com.goforcode.grocerygallery.models.User;
+import com.goforcode.grocerygallery.repositories.ItemReferenceRepository;
 import com.goforcode.grocerygallery.repositories.ItemRepository;
 
 @RestController
@@ -24,9 +28,11 @@ import com.goforcode.grocerygallery.repositories.ItemRepository;
 public class FridgeController {
 	
 	private ItemRepository itemRepo;
+	private ItemReferenceRepository itemRefRepo; // NEW
 	
-	public FridgeController(ItemRepository itemRepo) {
+	public FridgeController(ItemRepository itemRepo, ItemReferenceRepository itemRefRepo) {
 		this.itemRepo = itemRepo;
+		this.itemRefRepo = itemRefRepo;
 	}
 	
 	/* This needs to be fixed before it is uncommented
@@ -48,9 +54,68 @@ public class FridgeController {
 		return itemRepo.findByInFridgeTrueAndUserIdEqualsOrderByExpirationDate(getPrincipalUser(auth).getId());
 	}
 	
+	@GetMapping("/search")
+	public List<ItemReference> returnSeachResults(@RequestParam String query) {
+		return itemRefRepo.findByNameLike(query);
+	}
+	
+	
 	@PostMapping("")
 	public Item addItemToFridge(@RequestBody Item fridgeItem, Authentication auth) {
+		// adding completely new food item not in the ref table
 		fridgeItem.setInFridge(true);
+		if (fridgeItem.getId() != null) {
+			Date purchase = fridgeItem.getpurchasedDate();
+			Date expiration = fridgeItem.getExpirationDate();
+			Calendar purchaseDate = Calendar.getInstance();
+			Calendar expirationDate = Calendar.getInstance();
+			purchaseDate.setTime(purchase);
+			expirationDate.setTime(expiration);
+			
+			int daysUntilExpiration = expirationDate.get(Calendar.DAY_OF_YEAR) - purchaseDate.get(Calendar.DAY_OF_YEAR);
+			
+			ItemReference item = new ItemReference();
+			
+			String fridgeItemName = fridgeItem.getName();
+			item.setName(fridgeItemName);
+			item.setShelfLife(daysUntilExpiration);
+			itemRefRepo.save(item);
+			//save item to itemRef table
+			
+			
+			return itemRepo.save(fridgeItem);
+			//save a copy to the item table
+		} else { 
+			//save to the item tables as a new copy
+			ItemReference item = itemRefRepo.findOne(fridgeItem.getId());
+			Item foodItem = new Item();
+			Date purchase = new Date();
+			foodItem.setpurchasedDate(purchase);
+			Calendar purchaseDate = Calendar.getInstance();
+			purchaseDate.setTime(purchase);
+			purchaseDate.add(Calendar.DATE, item.getShelfLife());
+			foodItem.setExpirationDate(purchaseDate.getTime());
+			return itemRepo.save(foodItem);
+			
+			
+		}
+		
+//		// create itemrefrepo
+//		
+//		String fridgeItemName = fridgeItem.getName();
+//		List<Item> queryResults = itemRefRepo.findByNameLike(fridgeItemName);
+		
+		
+		
+		// take item in request body, look for it in the reference table by name
+		// if there, calculate default expiration date and set it
+		// save it
+		
+		//if not there, 
+		
+		
+		
+		
 		
 		System.out.println("Item purchase date: " + fridgeItem.getpurchasedDate());
 		System.out.println("Item expiration date: " + fridgeItem.getExpirationDate());

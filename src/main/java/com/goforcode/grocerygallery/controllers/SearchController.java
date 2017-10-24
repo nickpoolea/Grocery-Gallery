@@ -31,7 +31,7 @@ public class SearchController {
 		this.itemRepo = itemRepo;
 	}
 	
-	@GetMapping("")
+	@GetMapping("") // list
 	public JsonNode searchForItem(@RequestParam String query) {
 		try {
 			return search.searchForItems(query);
@@ -39,9 +39,16 @@ public class SearchController {
 			e.printStackTrace();
 		}
 		return null;
+		
+		// search the item ref repo for a food named similar to what's coming in as the query
+		// return a list of teh items that come back
+		// if search result returns nothing then return an empty list and then (through another method)
+		// add the item to the item ref table
+		// redirect back to  manage fridge item page so that user can input expiration date etc
+		// 
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping("/{id}") // add selected item to repo
 	public Item saveItemWithApiDetails(@PathVariable String id, Authentication auth) throws JsonProcessingException, IOException {
 		User user = (User) auth.getPrincipal();
 		Item item = search.jsonDetailsToObect(id);
