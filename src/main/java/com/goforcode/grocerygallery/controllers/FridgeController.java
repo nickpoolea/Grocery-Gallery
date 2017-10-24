@@ -38,11 +38,6 @@ public class FridgeController {
 	public Item addItemToFridge(@RequestBody Item fridgeItem, Authentication auth) {
 		fridgeItem.setInFridge(true);
 		
-		System.out.println("Item purchase date: " + fridgeItem.getpurchasedDate());
-		System.out.println("Item expiration date: " + fridgeItem.getExpirationDate());
-	
-		
-		
 		//set every new item in fridge not available in other areas
 		fridgeItem.setInGrocery(false);
 		fridgeItem.setWasFinished(false);

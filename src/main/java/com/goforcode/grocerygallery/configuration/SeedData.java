@@ -45,6 +45,7 @@ public class SeedData {
 		Item eggs = new Item("Eggs");
 		eggs.setUser(priya);
 		eggs.setInGrocery(true);
+		eggs.setQuantity(6);
 		eggs.setLevel(eggs.calculateLevel());
 		eggs.setInFridge(true);
 		itemRepo.save(eggs);
@@ -52,6 +53,7 @@ public class SeedData {
 		Item chickenFeet = new Item("Chicken Feet", sdf.parse("10/4/2017"), sdf.parse("10/22/2017"));
 		chickenFeet.setUser(priya);
 		chickenFeet.setInGrocery(true);
+		chickenFeet.setQuantity(25);
 		chickenFeet.setLevel(chickenFeet.calculateLevel());
 		itemRepo.save(chickenFeet);
 		
