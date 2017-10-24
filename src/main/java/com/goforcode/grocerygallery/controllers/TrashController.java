@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,23 +56,32 @@ public class TrashController {
 	
 	//Currently unused - front end has to change their code to send
 	//item object rather than just ID 
-	@PostMapping("/wasted")
-	public Item addItemToWasted(@RequestBody Item item, Authentication auth) {
-		item.setWasWasted(true);
-
-		item.setUser(getPrincipalUser(auth));
-		return itemRepo.save(item);	
+	@PostMapping("/{id}/wasted")
+	public Item addItemToWasted(@PathVariable long id, Authentication auth) {
+		User user = (User) auth.getPrincipal();
+		Item item = itemRepo.findByIdAndUserId(id, user.getId());
+		
+		if(item != null) {
+			item.setWasWasted(true);
+			return itemRepo.save(item);
+		}
+		return new Item();		
 	}
 	
 	
 	//Currently unused - front end has to change their code to send
 	//item object rather than just ID 
-	@PostMapping("/finished")
-	public Item addItemToFinished(@RequestBody Item item, Authentication auth) {
-		item.setWasFinished(true);
+	@PostMapping("/{id}/finished")
+	public Item addItemToFinished(@PathVariable long id, Authentication auth) {
+		User user = (User) auth.getPrincipal();
+		Item item = itemRepo.findByIdAndUserId(id, user.getId());
 		
-		item.setUser(getPrincipalUser(auth));
-		return itemRepo.save(item);
+		if(item != null) {
+			item.setWasFinished(true);
+			return itemRepo.save(item);
+		}
+		return new Item();	
+		
 	}
 	
 	
