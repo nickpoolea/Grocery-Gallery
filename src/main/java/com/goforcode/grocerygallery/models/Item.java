@@ -53,7 +53,7 @@ public class Item {
 
 	private boolean wasFinished;
 
-	private int level;
+	private Freshness level;
 
 	private int quantity;
 
@@ -165,10 +165,10 @@ public class Item {
 	}
 
 	public int getLevel() {
-		return (int) level;
+		return level.ordinal() + 1;
 	}
 
-	public void setLevel(int freshness) {
+	public void setLevel(Freshness freshness) {
 		this.level = freshness;
 	}
 
@@ -180,7 +180,7 @@ public class Item {
 		this.quantity = quantity;
 	}
 
-	public int calculateLevel() {
+	public Freshness calculateLevel() {
 
 		Date currentDate = new Date();
 
@@ -215,14 +215,14 @@ public class Item {
 //		System.out.println("Level % is: " + levelPercentage);
 
 		if (levelPercentage <= 0.33) {
-			this.setLevel(Freshness.FRESH.ordinal());
+			this.setLevel(Freshness.FRESH);
 		} else if (levelPercentage <= 0.55 && levelPercentage > 0.33) {
-			this.setLevel(Freshness.CONSUMABLE.ordinal());
+			this.setLevel(Freshness.CONSUMABLE);
 		} else if (levelPercentage <= 0.99 && levelPercentage > 0.55) {
-			this.setLevel(Freshness.EXPIRING.ordinal());
+			this.setLevel(Freshness.EXPIRING);
 		}
 		else {
-			this.setLevel(Freshness.SPOILED.ordinal());
+			this.setLevel(Freshness.SPOILED);
 		}
 
 		return this.level;
