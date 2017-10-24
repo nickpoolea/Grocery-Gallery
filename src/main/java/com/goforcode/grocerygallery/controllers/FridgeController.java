@@ -29,20 +29,6 @@ public class FridgeController {
 		this.itemRepo = itemRepo;
 	}
 	
-	/* This needs to be fixed before it is uncommented
-	// To allow search to work
-	@GetMapping("")
-	public List<Item> returnItemsInFridge(String partialTitle) {
-		List<Item> returnList;
-		if(partialTitle != null) {
-			returnList = itemRepo.findByTitleContaining(partialTitle);	
-		}
-		else {
-			returnList = itemRepo.findAll();	
-		}
-		return returnList;
-	}*/
-	
 	@GetMapping("")
 	public List<Item> returnItemsInFridge(Authentication auth) {
 		return itemRepo.findByInFridgeTrueAndUserIdEqualsOrderByExpirationDate(getPrincipalUser(auth).getId());
@@ -63,7 +49,6 @@ public class FridgeController {
 		fridgeItem.setWasWasted(false);
 		
 		//category and date validation if false
-//		fridgeItem.validateCategoryAndDates();
 		fridgeItem.calculateLevel();
 		
 		fridgeItem.setUser(getPrincipalUser(auth));
@@ -93,7 +78,6 @@ public class FridgeController {
 			fridgeItem.setWasFinished(false);
 			fridgeItem.setWasWasted(false);
 			
-//			fridgeItem.validateCategoryAndDates();
 			fridgeItem.calculateLevel();
 			return itemRepo.save(fridgeItem);
 		}
@@ -162,7 +146,6 @@ public class FridgeController {
 			item.setWasFinished(false);
 			item.setWasWasted(false);
 			
-//			item.validateCategoryAndDates();
 			item.calculateLevel();
 			
 			return itemRepo.save(item);
