@@ -193,8 +193,8 @@ public class Item {
 		this.user = user;
 	}
 
-	public double getLevel() {
-		return level;
+	public int getLevel() {
+		return level.ordinal() + 1;
 	}
 
 	public void setLevel(Freshness freshness) {
@@ -216,7 +216,7 @@ public class Item {
 		this.wasFinished = false;
 	}
 	
-	public int calculateLevel() {
+	public Freshness calculateLevel() {
 
 		Date currentDate = new Date();
 
