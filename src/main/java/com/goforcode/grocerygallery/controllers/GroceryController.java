@@ -54,7 +54,6 @@ public class GroceryController {
 	@PutMapping("/{id}")
 	public Item editGroceryItem(@PathVariable long id, @RequestBody Item item, Authentication auth) {
 		
-		// What do we do if this errors (NullPointerException)?
 		User user = (User) auth.getPrincipal();
 		Item searchItem = itemRepo.findByIdAndUserId(id, user.getId());
 		
