@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.goforcode.grocerygallery.configuration.Freshness;
 import com.goforcode.grocerygallery.models.Item;
 import com.goforcode.grocerygallery.models.ItemReference;
 import com.goforcode.grocerygallery.models.User;
@@ -132,7 +133,8 @@ public class FridgeController {
 	
 	@GetMapping("count")
 	public int countItemByLevel(@RequestParam int level, Authentication auth) {
-		return itemRepo.countByInFridgeTrueAndUserIdEqualsAndLevelEquals(getPrincipalUser(auth).getId(), level);
+		Freshness freshLevel = Freshness.values()[level - 1];
+		return itemRepo.countByInFridgeTrueAndUserIdEqualsAndLevelEquals(getPrincipalUser(auth).getId(), freshLevel);
 	}
 	
 	public User getPrincipalUser(Authentication auth) {

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.goforcode.grocerygallery.configuration.Freshness;
 import com.goforcode.grocerygallery.models.Item;
 
 @Repository
@@ -32,6 +33,6 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 	List<Item> findByInGroceryTrueAndUserIdEqualsOrderByName(long userId);
 	
 	// Count items of a particular level in the fridge
-	int countByInFridgeTrueAndUserIdEqualsAndLevelEquals(long userId, int level); 
+	int countByInFridgeTrueAndUserIdEqualsAndLevelEquals(long userId, Freshness level); 
 
 }
