@@ -47,7 +47,6 @@ public class SearchController {
 		item.calculateLevel();
 		cal.add(Calendar.DATE, itemRef.getShelfLife() - 1);
 		item.setExpirationDate(cal.getTime());
-		
 		return item;
 	}
 
