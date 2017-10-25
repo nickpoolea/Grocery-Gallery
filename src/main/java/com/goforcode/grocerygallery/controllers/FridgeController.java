@@ -37,16 +37,7 @@ public class FridgeController {
 	@PostMapping("")
 	public Item addItemToFridge(@RequestBody Item fridgeItem, Authentication auth) {
 		fridgeItem.setInFridge(true);
-<<<<<<< HEAD
-=======
 		
-		//set every new item in fridge not available in other areas
-		fridgeItem.setInGrocery(false);
-		fridgeItem.setWasFinished(false);
-		fridgeItem.setWasWasted(false);
-		
-		//category and date validation if false
->>>>>>> 566127e263134816a0b313dd7017fc460d9f2158
 		fridgeItem.calculateLevel();
 		
 		fridgeItem.setUser(getPrincipalUser(auth));
@@ -70,15 +61,7 @@ public class FridgeController {
 			fridgeItem.setId(id);
 			fridgeItem.setInFridge(true);
 			fridgeItem.setUser(user);
-<<<<<<< HEAD
-=======
-			
-			//set every updated item in fridge not available in other areas
-			fridgeItem.setInGrocery(false);
-			fridgeItem.setWasFinished(false);
-			fridgeItem.setWasWasted(false);
-			
->>>>>>> 566127e263134816a0b313dd7017fc460d9f2158
+		
 			fridgeItem.calculateLevel();
 			return itemRepo.save(fridgeItem);
 		}
