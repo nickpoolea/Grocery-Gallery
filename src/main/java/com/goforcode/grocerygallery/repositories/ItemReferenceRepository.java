@@ -12,10 +12,8 @@ import com.goforcode.grocerygallery.models.ItemReference;
 @Repository
 public interface ItemReferenceRepository extends JpaRepository<ItemReference, Long> {
 	
-	//Make sure the user owns the item before editing
-	Item findById(long itemId);
-
-	List<ItemReference> findByNameLike(String name);
+	List<ItemReference> findByNameLikeIgnoreCase(String name);
+	ItemReference findByNameEquals(String name);
 	
 	
 	

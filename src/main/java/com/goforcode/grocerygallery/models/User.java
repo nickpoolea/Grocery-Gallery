@@ -59,7 +59,6 @@ public class User implements UserDetails {
 	public User(String email, String password, String roleName) {
 		this.email = email;
 		this.password = password;
-		
 		roles = new ArrayList<UserRole>();
 		roles.add(new UserRole(roleName, this));
 	}

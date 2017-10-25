@@ -29,9 +29,6 @@ public class Item {
 	@Column(length = 255, nullable = false)
 	private String name;
 
-	@Column(length = 255)
-	private String category;
-
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	@Column(length = 20)
 	private Date purchasedDate;
@@ -67,12 +64,10 @@ public class Item {
 		this.name = name;
 	}
 
-	public Item(String name, String category, Date purchasedDate, Date expirationDate) {
+	public Item(String name, Date purchasedDate, Date expirationDate) {
 		this.name = name;
-		this.category = category;
 		this.purchasedDate = purchasedDate;
 		this.expirationDate = expirationDate;
-
 	}
 
 	public Long getId() {
@@ -91,19 +86,11 @@ public class Item {
 		this.name = name;
 	}
 
-	public String getCategory() {
-		return category;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
-	}
-
-	public Date getpurchasedDate() {
+	public Date getPurchasedDate() {
 		return purchasedDate;
 	}
 
-	public void setpurchasedDate(Date purchasedDate) {
+	public void setPurchasedDate(Date purchasedDate) {
 		this.purchasedDate = purchasedDate;
 	}
 
@@ -129,6 +116,12 @@ public class Item {
 
 	public void setInFridge(boolean inFridge) {
 		this.inFridge = inFridge;
+		
+		if (inFridge) {
+			setInGrocery(false);
+			setWasWasted(false);
+			setWasFinished(false);
+		}
 	}
 
 	public boolean isInGrocery() {
@@ -137,6 +130,12 @@ public class Item {
 
 	public void setInGrocery(boolean inGrocery) {
 		this.inGrocery = inGrocery;
+		
+		if (inGrocery) {
+			setInFridge(false);
+			setWasWasted(false);
+			setWasFinished(false);
+		}
 	}
 
 	public boolean isWasWasted() {
@@ -145,6 +144,12 @@ public class Item {
 
 	public void setWasWasted(boolean wasWasted) {
 		this.wasWasted = wasWasted;
+		
+		if (wasWasted) {
+			setInGrocery(false);
+			setInFridge(false);
+			setWasFinished(false);
+		}
 	}
 
 	public boolean isWasFinished() {
@@ -153,6 +158,12 @@ public class Item {
 
 	public void setWasFinished(boolean wasFinished) {
 		this.wasFinished = wasFinished;
+		
+		if (wasFinished) {
+			setInGrocery(false);
+			setInFridge(false);
+			setWasWasted(false);
+		}
 	}
 
 	public User getUser() {
@@ -164,7 +175,6 @@ public class Item {
 	}
 
 	public double getLevel() {
-
 		return level;
 	}
 
@@ -179,7 +189,14 @@ public class Item {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-
+	
+	public void setInFridgeAndInGrocery() {
+		this.inFridge = true;
+		this.inGrocery = true;
+		this.wasWasted = false;
+		this.wasFinished = false;
+	}
+	
 	public int calculateLevel() {
 
 		Date currentDate = new Date();
@@ -189,8 +206,8 @@ public class Item {
 		Calendar expiryDate = Calendar.getInstance();
 		currDate.setTime(currentDate);
 
-		if(getpurchasedDate() != null ) {
-			purchDate.setTime(getpurchasedDate());
+		if(getPurchasedDate() != null ) {
+			purchDate.setTime(getPurchasedDate());
 		}
 		else {
 			purchDate.setTime(new Date());
@@ -201,18 +218,13 @@ public class Item {
 		}
 		else {	 
 			expiryDate.add(Calendar.DATE, 7);	
-			//Add stuff here - need to use API data to search for expiration date
 		}
 
 		double daysBetweenfirst = currDate.get(Calendar.DAY_OF_YEAR) - purchDate.get(Calendar.DAY_OF_YEAR);
 
 		double daysBetweenSecond = expiryDate.get(Calendar.DAY_OF_YEAR) - purchDate.get(Calendar.DAY_OF_YEAR);
 
-//		System.out.println("daysBetweenFIRST is: " + daysBetweenfirst);
-//		System.out.println("daysBetweenSECOND is: " + daysBetweenSecond);
-
 		double levelPercentage = daysBetweenfirst / daysBetweenSecond;
-//		System.out.println("Level % is: " + levelPercentage);
 
 		if (levelPercentage <= 0.33) {
 			this.setLevel(1);
@@ -227,152 +239,4 @@ public class Item {
 
 		return this.level;
 	}
-	
-	public void validateCategoryAndDates() {
-		
-		String category = this.category;
-		
-		if (category != null ) {
-			
-			System.out.println("Category: " + category);
-			
-			switch(category.toLowerCase()) {
-			
-		        case "eggs/dairy":  
-		        	if(this.getpurchasedDate() == null ) {
-			        	Calendar currentDate = Calendar.getInstance();
-			            Date date = new Date();
-			            currentDate.setTime(date);
-			            this.setpurchasedDate(currentDate.getTime());	
-		        	}
-		        	
-		        	if(this.getExpirationDate() == null) {
-			        	Calendar cal = Calendar.getInstance();
-			        	cal.setTime(purchasedDate);
-			        	cal.add(Calendar.DATE, 7);
-			        	this.setExpirationDate(cal.getTime());			        		
-		        	}
-		            break;
-		            
-		        case "protein":
-		        	if(this.getpurchasedDate() == null ) {
-			        	Calendar currentDate = Calendar.getInstance();
-			            Date date = new Date();
-			            currentDate.setTime(date);
-			            this.setpurchasedDate(currentDate.getTime());	
-		        	}
-		        	
-		        	if(this.getExpirationDate() == null) {
-			        	Calendar cal = Calendar.getInstance();
-			        	cal.setTime(purchasedDate);
-			        	cal.add(Calendar.DATE, 3);
-			        	this.setExpirationDate(cal.getTime());			        		
-		        	}
-		            break;
-		            
-		        case "produce":
-		        	if(this.getpurchasedDate() == null ) {
-			        	Calendar currentDate = Calendar.getInstance();
-			            Date date = new Date();
-			            currentDate.setTime(date);
-			            this.setpurchasedDate(currentDate.getTime());	
-		        	}
-		        	
-		        	if(this.getExpirationDate() == null) {
-			        	Calendar cal = Calendar.getInstance();
-			        	cal.setTime(purchasedDate);
-			        	cal.add(Calendar.DATE, 7);
-			        	this.setExpirationDate(cal.getTime());			        		
-		        	}
-		            break;
-		            
-		        case "grains":
-		        	if(this.getpurchasedDate() == null ) {
-			        	Calendar currentDate = Calendar.getInstance();
-			            Date date = new Date();
-			            currentDate.setTime(date);
-			            this.setpurchasedDate(currentDate.getTime());	
-		        	}
-		        	
-		        	if(this.getExpirationDate() == null) {
-			        	Calendar cal = Calendar.getInstance();
-			        	cal.setTime(purchasedDate);
-			        	cal.add(Calendar.DATE, 21);
-			        	this.setExpirationDate(cal.getTime());			        		
-		        	}
-		            break;
-		            
-		        case "condiments":
-		        	if(this.getpurchasedDate() == null ) {
-			        	Calendar currentDate = Calendar.getInstance();
-			            Date date = new Date();
-			            currentDate.setTime(date);
-			            this.setpurchasedDate(currentDate.getTime());	
-		        	}
-		        	
-		        	if(this.getExpirationDate() == null) {
-			        	Calendar cal = Calendar.getInstance();
-			        	cal.setTime(purchasedDate);
-			        	cal.add(Calendar.DATE, 180);
-			        	this.setExpirationDate(cal.getTime());			        		
-		        	}
-		            break;
-		            
-		        case "other":
-		        	if(this.getpurchasedDate() == null ) {
-			        	Calendar currentDate = Calendar.getInstance();
-			            Date date = new Date();
-			            currentDate.setTime(date);
-			            this.setpurchasedDate(currentDate.getTime());	
-		        	}
-		        	
-		        	if(this.getExpirationDate() == null) {
-			        	Calendar cal = Calendar.getInstance();
-			        	cal.setTime(purchasedDate);
-			        	cal.add(Calendar.DATE, 7);
-			        	this.setExpirationDate(cal.getTime());			        		
-		        	}
-		            break;
-		            
-		        //this will never get hit but keeping for error handling purposes:
-		        default: 
-//		        	this.setCategory("other");	
-		        	if(this.getpurchasedDate() == null ) {
-			        	Calendar currentDate = Calendar.getInstance();
-			            Date date = new Date();
-			            currentDate.setTime(date);
-			            this.setpurchasedDate(currentDate.getTime());	
-		        	}
-		        	
-		        	if(this.getExpirationDate() == null) {
-			        	Calendar cal = Calendar.getInstance();
-			        	cal.setTime(purchasedDate);
-			        	cal.add(Calendar.DATE, 7);
-			        	this.setExpirationDate(cal.getTime());			        		
-		        	}
-		            break;
-			 }
-		
-		}
-		else {
-			
-			this.setCategory("Other");
-			
-        	Calendar currentDate = Calendar.getInstance();
-            Date date = new Date();
-            currentDate.setTime(date);
-            this.setpurchasedDate(currentDate.getTime());
-            
-        	Calendar cal = Calendar.getInstance();
-        	cal.setTime(purchasedDate);
-        	cal.add(Calendar.DATE, 7);
-        	this.setExpirationDate(cal.getTime());
-			
-		}
-		
-		
-	}
-
-	
-
 }
