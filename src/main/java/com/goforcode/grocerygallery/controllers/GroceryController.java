@@ -60,13 +60,13 @@ public class GroceryController {
 			
 			if (searchItem.isInFridge()) {
 				item.setInFridgeAndInGrocery();
-				item.calculateLevel();
 				
 			} else {
 				item.setInGrocery(true);
 				}
 			item.setUser(user);
 			item.setId(id);
+			item.calculateLevel();
 			return itemRepo.save(item);	
 		}
 		return new Item();
