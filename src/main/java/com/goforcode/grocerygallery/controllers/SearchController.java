@@ -38,13 +38,13 @@ public class SearchController {
 	}
 	
 	@GetMapping("/{id}") // add selected item to repo
-	public Item createItemFromExistingReference(@PathVariable long id) throws JsonProcessingException, IOException {
+	public Item createItemFromExistingReference(@PathVariable long id) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
 		ItemReference itemRef = itemRefRepo.findOne(id);
 		Item item = new Item(itemRef.getName());
 		item.setPurchasedDate(cal.getTime());
-		
+		item.calculateLevel();
 		cal.add(Calendar.DATE, itemRef.getShelfLife() - 1);
 		item.setExpirationDate(cal.getTime());
 		
