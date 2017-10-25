@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.catalina.filters.ExpiresFilter.XHttpServletResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,8 +34,15 @@ public class SearchController {
 	}
 	
 	@GetMapping("") // list
-	public List<ItemReference> searchForAReferenceItem(@RequestParam String query) {
-		return itemRefRepo.findByNameLikeIgnoreCase(query);
+	public List<ItemReference> searchForAReferenceItem(@RequestParam String query, XHttpServletResponse response) {
+		
+		List<ItemReference> items = itemRefRepo.findByNameLikeIgnoreCase(query);
+		
+		if (items.size() == 0) {
+			response.setStatus(500);
+		}
+		
+		return  items;
 	}
 	
 	@GetMapping("/{id}") // add selected item to repo

@@ -17,8 +17,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-// @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
-// property = "id")
+
 public class ItemReference {
 
 	@Id
@@ -28,12 +27,6 @@ public class ItemReference {
 
 	@Column(length = 255, nullable = false)
 	private String name;
-
-	/*
-	@JsonFormat(pattern = "yyyy-MM-dd")
-	@Column(length = 20)
-	private Date expirationDate;
-	 */
 	
 	@Column(length = 20, nullable = false)
 	private int shelfLife;
@@ -43,7 +36,7 @@ public class ItemReference {
 
 	
 	public ItemReference(String name, int shelfLife) {
-		this.name = name;
+		this.name = name.toLowerCase();
 		this.shelfLife = shelfLife;
 	}
 
@@ -56,7 +49,7 @@ public class ItemReference {
 	}
 
 	public String getName() {
-		return name;
+		return name.toLowerCase();
 	}
 
 	public void setName(String name) {

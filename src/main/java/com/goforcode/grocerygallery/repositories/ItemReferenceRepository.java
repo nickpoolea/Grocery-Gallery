@@ -14,6 +14,7 @@ public interface ItemReferenceRepository extends JpaRepository<ItemReference, Lo
 	
 	List<ItemReference> findByNameLikeIgnoreCase(String name);
 	ItemReference findByNameEquals(String name);
+	ItemReference findOneByNameEqualsIgnoreCase(String name);
 	
 	
 	

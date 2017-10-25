@@ -487,25 +487,25 @@ public class SeedData {
 
 		
 		Item fridgeItem = new Item("Melon", sdf.parse("10/17/2017"), sdf.parse("10/19/2017"));
-		fridgeItem.setUser(user); fridgeItem.setInFridge(true);
+		fridgeItem.setUser(user); fridgeItem.setInFridge(true);fridgeItem.calculateLevel();
 		itemRepo.save(fridgeItem);
 		fridgeItem = new Item("Nectarines", sdf.parse("10/19/2017"), sdf.parse("11/01/2017"));
-		fridgeItem.setUser(user); fridgeItem.setInFridge(true);
+		fridgeItem.setUser(user); fridgeItem.setInFridge(true);fridgeItem.calculateLevel();
 		itemRepo.save(fridgeItem);
 		fridgeItem = new Item("Oranges", sdf.parse("10/19/2017"), sdf.parse("11/01/2017"));
-		fridgeItem.setUser(user); fridgeItem.setInFridge(true);
+		fridgeItem.setUser(user); fridgeItem.setInFridge(true);fridgeItem.calculateLevel();
 		itemRepo.save(fridgeItem);
 		fridgeItem = new Item("Peaches", sdf.parse("10/22/2017"), sdf.parse("10/23/2017"));
-		fridgeItem.setUser(user); fridgeItem.setInFridge(true);
+		fridgeItem.setUser(user); fridgeItem.setInFridge(true);fridgeItem.calculateLevel();
 		itemRepo.save(fridgeItem);
 		fridgeItem = new Item("Pears", sdf.parse("10/19/2017"), sdf.parse("11/01/2017"));
-		fridgeItem.setUser(user); fridgeItem.setInFridge(true);
+		fridgeItem.setUser(user); fridgeItem.setInFridge(true);fridgeItem.calculateLevel();
 		itemRepo.save(fridgeItem);
 		fridgeItem = new Item("Plums", sdf.parse("10/18/2017"), sdf.parse("10/23/2017"));
-		fridgeItem.setUser(user); fridgeItem.setInFridge(true);
+		fridgeItem.setUser(user); fridgeItem.setInFridge(true);fridgeItem.calculateLevel();
 		itemRepo.save(fridgeItem);
 		fridgeItem = new Item("Bagels", sdf.parse("10/17/2017"), sdf.parse("10/31/2017"));
-		fridgeItem.setUser(user); fridgeItem.setInFridge(true);
+		fridgeItem.setUser(user); fridgeItem.setInFridge(true);fridgeItem.calculateLevel();
 		itemRepo.save(fridgeItem);	
 	
 		

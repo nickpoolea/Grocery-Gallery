@@ -47,6 +47,7 @@ public class AlexaGroceryController {
 		}
 		item.setUser(user);
 		item.setInGrocery(true);
+		item.calculateLevel();
 		
 		return itemRepo.save(item);
 	}
