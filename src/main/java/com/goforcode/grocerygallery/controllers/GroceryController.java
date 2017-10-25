@@ -41,7 +41,8 @@ public class GroceryController {
 	public Item addItemToGroceryList(@RequestBody Item item, Authentication auth) {
 		User user = (User) auth.getPrincipal();
 		item.setUser(user);
-		item.setInGrocery(true);		
+		item.setInGrocery(true);
+		item.calculateLevel();
 		return itemRepo.save(item);
 	}
 	
