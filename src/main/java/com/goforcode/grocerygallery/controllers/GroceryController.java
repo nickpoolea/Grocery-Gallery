@@ -41,28 +41,33 @@ public class GroceryController {
 	public Item addItemToGroceryList(@RequestBody Item item, Authentication auth) {
 		User user = (User) auth.getPrincipal();
 		item.setUser(user);
-		item.setInGrocery(true);
-		
+		item.setInGrocery(true);		
 		return itemRepo.save(item);
 	}
 	
 	@GetMapping("/{id}")
-	public Item getDetailsOfGroceryItem(@PathVariable long id) {
-		return itemRepo.findOne(id);
+	public Item getDetailsOfGroceryItem(@PathVariable long id, Authentication auth) {
+		User user = (User) auth.getPrincipal();
+		return itemRepo.findByIdAndUserId(id, user.getId());
 	}
 	
 	@PutMapping("/{id}")
 	public Item editGroceryItem(@PathVariable long id, @RequestBody Item item, Authentication auth) {
-		
 		User user = (User) auth.getPrincipal();
 		Item searchItem = itemRepo.findByIdAndUserId(id, user.getId());
 		
-		if (searchItem != null ) {
-			item.setInGrocery(true);
+		if (searchItem != null) {
+			
+			if (searchItem.isInFridge()) {
+				item.setInFridgeAndInGrocery();
+				item.calculateLevel();
+				
+			} else {
+				item.setInGrocery(true);
+				}
 			item.setUser(user);
 			item.setId(id);
-			
-			return itemRepo.save(item);
+			return itemRepo.save(item);	
 		}
 		return new Item();
 	}
@@ -71,10 +76,15 @@ public class GroceryController {
 	public Item deleteItemFromGroceryList(@PathVariable long id, Authentication auth) {
 		User user = (User) auth.getPrincipal();
 		Item item = itemRepo.findByIdAndUserId(id, user.getId());
-		if (item != null) {
+		if (item != null && !item.isInFridge()) {
 			itemRepo.delete(id);
 			return item;
+			
+		} else if (item !=null) {
+			item.setInFridge(true);
+			return itemRepo.save(item);
 		}
+				
 		return new Item();
 	}
 	
@@ -84,9 +94,8 @@ public class GroceryController {
 		Item item = itemRepo.findByIdAndUserId(id, user.getId());
 		
 		if (item != null) {
-			item.setInFridge(true);
+			item.setInFridgeAndInGrocery();
 			item.calculateLevel();
-			
 			return itemRepo.save(item);
 		}
 		return new Item();

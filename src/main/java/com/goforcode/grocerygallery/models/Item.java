@@ -85,11 +85,11 @@ public class Item {
 		this.name = name;
 	}
 
-	public Date getpurchasedDate() {
+	public Date getPurchasedDate() {
 		return purchasedDate;
 	}
 
-	public void setpurchasedDate(Date purchasedDate) {
+	public void setPurchasedDate(Date purchasedDate) {
 		this.purchasedDate = purchasedDate;
 	}
 
@@ -121,6 +121,12 @@ public class Item {
 		}
 	
 		this.inFridge = inFridge;
+		
+		if (inFridge) {
+			setInGrocery(false);
+			setWasWasted(false);
+			setWasFinished(false);
+		}
 	}
 
 	public boolean isInGrocery() {
@@ -133,6 +139,12 @@ public class Item {
 			this.setWasWasted(false);
 		}
 		this.inGrocery = inGrocery;
+		
+		if (inGrocery) {
+			setInFridge(false);
+			setWasWasted(false);
+			setWasFinished(false);
+		}
 	}
 
 	public boolean isWasWasted() {
@@ -146,6 +158,12 @@ public class Item {
 			this.setInFridge(false);
 		}
 		this.wasWasted = wasWasted;
+		
+		if (wasWasted) {
+			setInGrocery(false);
+			setInFridge(false);
+			setWasFinished(false);
+		}
 	}
 
 	public boolean isWasFinished() {
@@ -159,6 +177,12 @@ public class Item {
 			this.setWasWasted(false);
 		}
 		this.wasFinished = wasFinished;
+		
+		if (wasFinished) {
+			setInGrocery(false);
+			setInFridge(false);
+			setWasWasted(false);
+		}
 	}
 
 	public User getUser() {
@@ -169,8 +193,8 @@ public class Item {
 		this.user = user;
 	}
 
-	public int getLevel() {
-		return level.ordinal() + 1;
+	public double getLevel() {
+		return level;
 	}
 
 	public void setLevel(Freshness freshness) {
@@ -184,8 +208,15 @@ public class Item {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-
-	public Freshness calculateLevel() {
+	
+	public void setInFridgeAndInGrocery() {
+		this.inFridge = true;
+		this.inGrocery = true;
+		this.wasWasted = false;
+		this.wasFinished = false;
+	}
+	
+	public int calculateLevel() {
 
 		Date currentDate = new Date();
 
@@ -194,8 +225,8 @@ public class Item {
 		Calendar expiryDate = Calendar.getInstance();
 		currDate.setTime(currentDate);
 
-		if(getpurchasedDate() != null ) {
-			purchDate.setTime(getpurchasedDate());
+		if(getPurchasedDate() != null ) {
+			purchDate.setTime(getPurchasedDate());
 		}
 		else {
 			purchDate.setTime(new Date());
@@ -227,5 +258,4 @@ public class Item {
 
 		return this.level;
 	}
-
 }

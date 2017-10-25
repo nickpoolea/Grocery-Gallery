@@ -1,6 +1,9 @@
 package com.goforcode.grocerygallery.controllers;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -11,44 +14,41 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.goforcode.grocerygallery.models.Item;
-import com.goforcode.grocerygallery.models.User;
+import com.goforcode.grocerygallery.models.ItemReference;
+import com.goforcode.grocerygallery.repositories.ItemReferenceRepository;
 import com.goforcode.grocerygallery.repositories.ItemRepository;
-import com.goforcode.grocerygallery.services.ApiSearchService;
 
 @Controller
 @RestController
 @RequestMapping("/search")
 public class SearchController {
 	
-	private ApiSearchService search;
+	private ItemReferenceRepository itemRefRepo;
 	private ItemRepository itemRepo;
 	
-	public SearchController(ApiSearchService search, ItemRepository itemRepo) {
-		this.search = search;
+	public SearchController(ItemReferenceRepository itemRefRepo, ItemRepository itemRepo) {
+		this.itemRefRepo = itemRefRepo;
 		this.itemRepo = itemRepo;
 	}
 	
-	@GetMapping("")
-	public JsonNode searchForItem(@RequestParam String query) {
-		try {
-			return search.searchForItems(query);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
+	@GetMapping("") // list
+	public List<ItemReference> searchForAReferenceItem(@RequestParam String query) {
+		return itemRefRepo.findByNameLikeIgnoreCase(query);
 	}
 	
-	@GetMapping("/{id}")
-	public Item saveItemWithApiDetails(@PathVariable String id, Authentication auth) throws JsonProcessingException, IOException {
-		User user = (User) auth.getPrincipal();
-		Item item = search.jsonDetailsToObect(id);
-		item.setUser(user);
+	@GetMapping("/{id}") // add selected item to repo
+	public Item createItemFromExistingReference(@PathVariable long id) throws JsonProcessingException, IOException {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		ItemReference itemRef = itemRefRepo.findOne(id);
+		Item item = new Item(itemRef.getName());
+		item.setPurchasedDate(cal.getTime());
 		
-		item.setInFridge(true);
-
-		return itemRepo.save(item);
+		cal.add(Calendar.DATE, itemRef.getShelfLife() - 1);
+		item.setExpirationDate(cal.getTime());
+		
+		return item;
 	}
 
 }
