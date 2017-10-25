@@ -5,7 +5,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.catalina.filters.ExpiresFilter.XHttpServletResponse;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,11 +35,10 @@ public class SearchController {
 	}
 	
 	@GetMapping("") // list
-	public List<ItemReference> searchForAReferenceItem(@RequestParam String query, XHttpServletResponse response) {
+	public List<ItemReference> searchForAReferenceItem(@RequestParam String query, HttpServletResponse response) {
 		
 		List<ItemReference> items = itemRefRepo.findByNameLikeIgnoreCase(query);
-		
-		if (items.size() == 0) {
+		if (items == null ||  items.isEmpty()) {
 			response.setStatus(500);
 		}
 		
